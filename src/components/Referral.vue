@@ -213,7 +213,7 @@ export default {
     };
   },
   methods: {
-    getTutorial(id) {
+    getReferral(id) {
       DataService.get(id)
         .then((response) => {
           this.currentReferral = response.data;
@@ -268,7 +268,7 @@ export default {
   },
   mounted() {
     this.message = "";
-    this.getTutorial(this.$route.params.id);
+    this.getReferral(this.$route.params.id);
   },
 };
 </script>

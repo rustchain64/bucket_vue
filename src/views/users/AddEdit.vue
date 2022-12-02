@@ -61,7 +61,7 @@ async function onSubmit(values) {
       Fetch User Code
     </button>
     <!-- {{referallCodeStore.agentCodes[0][this.length].agentCode}} -->
-    {{ this.referCode }}
+    {{ referCode }}
   </div>
 
   <template v-if="!(user?.loading || user?.error)">

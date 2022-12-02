@@ -15,19 +15,19 @@ const agentReferStore = useAgentReferCodeStore();
         Delete All Codes
       </button></span
     >
-    <span>Number of Agent Referral Codes: {{ this.numberOfCodes }}</span>
+    <span>Number of Agent Referral Codes: {{ numberOfCodes }}</span>
     <span
       ><button @click="generateCode" class="btn btn-primary">
         Generate Code
       </button></span
     >
-    <span>Code: {{ this.agentCode }}</span>
+    <span>Code: {{ agentCode }}</span>
     <span
       ><button @click="commitAgentCode" class="btn btn-success">
         Commit Code
       </button></span
     >
-    <span>Code: {{ this.agnetCode }}</span>
+    <span>Code: {{ agnetCode }}</span>
     <span
       ><button @click="getAllAgentCode" class="btn btn-warning">
         Get All Codes
@@ -37,7 +37,7 @@ const agentReferStore = useAgentReferCodeStore();
     <div>
       <ul>
         <li
-          v-for="code in this.allAgentCodes"
+          v-for="code in allAgentCodes"
           :value="code.value"
           :key="code.value"
           class="code_list"
