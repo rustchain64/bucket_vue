@@ -1,4 +1,3 @@
-# bucket_vue
 # mini-web
 
 ## Project setup
