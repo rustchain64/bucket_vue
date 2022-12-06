@@ -96,6 +96,7 @@ export default {
       AgentCodeDataService.getAll()
         .then((response) => {
           this.allAgentCodes = response.data;
+          console.log("ALL AGENT CODES: ", this.allAgentCodes);
           this.numberOfCodes = response.data.length;
           //localStorage.setItem('aentReferralCodes', JSON.stringify(response.data));
           agentReferStore.putAllReferralCodes(response.data); // change this to get all codes
@@ -120,7 +121,6 @@ export default {
 </script>
 
 <style scoped>
-@import "@/assets/base.css";
 @import "@/assets/main.css";
 
 .tool_actions_row {

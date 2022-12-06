@@ -204,10 +204,20 @@ function onSubmit() {
         </div>
 
         <div v-else>
-          <h4>You submitted successfully!</h4>
-          <h4>Thanks {{ user.firstName }}</h4>
-          <h4>Agent {{ user.agentName }} will contact you shortly!</h4>
-          <button class="btn btn-success" @click="newReferral">Add</button>
+          <img
+            alt="Go Free logo"
+            class="nav_logo"
+            src="@/assets/images/pie_logo.png"
+            height="60"
+          />
+          <h3>Thanks for your Referral</h3>
+          <h3>We will contact your agent!</h3>
+          <p>You should receive a call shortly!</p>
+          <!-- <h4>Thanks {{ user.firstName }}</h4> -->
+          <!-- <h4>Agent {{ user.agentName }} will contact you shortly!</h4> -->
+          <button class="btn btn-success" @click="newReferral">
+            Add Another
+          </button>
         </div>
       </div>
     </div>

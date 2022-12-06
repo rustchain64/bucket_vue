@@ -9,8 +9,8 @@ import Reporting from "./Reporting.vue";
 </script>
 
 <template>
-  <div class="main">Laning Page</div>
-  <div class="left_column">
+  <div class="flex-container">Laning Page</div>
+  <div class="flex_left_column">
     <button @click="userSplash">
       <img
         alt="user_list"
@@ -51,7 +51,7 @@ import Reporting from "./Reporting.vue";
     </button>
   </div>
 
-  <div class="right_column">
+  <div class="flex_right_column">
     <div v-if="view == 'exportPdf'">
       <img alt="Export as PDF" src="@/assets/images/pdf_exp.jpg" />
     </div>
@@ -170,26 +170,6 @@ export default {
 .row {
   display: flex;
 }
-
-/* Create two equal columns that sits next to each other */
-.left_column {
-  flex: 5%;
-  display: flex;
-  flex-direction: column;
-  /* padding: 10px; */
-  max-width: 5vw;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-.right_column {
-  flex: 70%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-
-.main {
-  max-width: 90vw;
-}
-
 .export_pdf {
   width: 3vw;
   height: 4vh;
@@ -221,4 +201,75 @@ export default {
 .bottom_right {
   background-color: silver;
 }
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .flex_left_column {
+    width: 5%;
+    height: 100vh;
+  }
+  .flex_right_column {
+    width: 75%;
+    margin: 5%;
+    padding: 5%;
+  }
+}
+/* Laptops */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .flex_left_column {
+    width: 5%;
+    height: 100vh;
+  }
+  .flex_right_column {
+    width: 75%;
+    margin: 5%;
+    padding: 5%;
+  }
+}
+/* Tablet Devices */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .flex_left_column {
+    width: 15%;
+    height: 100vh;
+  }
+  .flex_right_column {
+    width: 75%;
+    margin: 5%;
+    padding: 5%;
+  }
+}
+
+/*  Mobile devices */
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .flex_left_column {
+    width: 100%;
+    height: 5vh;
+  }
+  .flex_right_column {
+    width: 100%;
+    margin: 5%;
+    padding: 5%;
+  }
+}
+
+/* 320px—480px: Mobile devices
+481px—768px: iPads, Tablets
+769px—1024px: Small screens, laptops
+1025px—1200px: Desktops, large screens
+1201px and more— Extra large screens, TV */
 </style>

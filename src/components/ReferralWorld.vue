@@ -1,214 +1,157 @@
 <template>
-  <div class="main">
-    <h1>{{ msg }}</h1>
-    <div id="form_bg">
-      <div class="my-header">
-        <img
-          alt="Go Free logo"
-          class="nav_logo"
-          src="@/assets/images/pie_logo.png"
-          height="60"
-        />
-        <!-- <h2>Make a Referral</h2> -->
-        <h2>Make a Merchant</h2>
-      </div>
-      <form @submit.prevent="updateReferrals">
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.yourname"
-              placeholder="yourname"
-              ref="yourname"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.referralname"
-              placeholder="referralname"
-              ref="referralname"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.agentname"
-              placeholder="agentname"
-              ref="agentname"
-              size="60"
-            />
-          </div>
+  <h1>{{ msg }}</h1>
+  <div v-if="referred == false" id="form_bg">
+    <!-- <div id="form_bg"> -->
+    <div class="my-header">
+      <img
+        alt="Go Free logo"
+        class="nav_logo"
+        src="@/assets/images/pie_logo.png"
+        height="60"
+      />
+      <h3>Who would you like to refer?</h3>
+    </div>
+    <form @submit.prevent="updateReferrals">
+      <div class="my-row">
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.yourname"
+            placeholder="yourname"
+            ref="yourname"
+          />
         </div>
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.refagentcode"
-              placeholder="refagentcode"
-              ref="refagentcode"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.businessname"
-              placeholder="businessname"
-              ref="businessname"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.phone"
-              placeholder="phone"
-              ref="phone"
-              size="60"
-            />
-          </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.referralname"
+            placeholder="referralname"
+            ref="referralname"
+          />
         </div>
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.email"
-              placeholder="email"
-              ref="email"
-              size="60"
-            />
-          </div>
-
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.ss"
-              placeholder="ss"
-              ref="ss"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.bankname"
-              placeholder="bankname"
-              ref="bankname"
-              size="60"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.routingnumber"
-              placeholder="routingnumber"
-              ref="routingnumber"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.accountnumber"
-              placeholder="accountnumber"
-              ref="accountnumber"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.title"
-              placeholder="title"
-              ref="title"
-              size="60"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.description"
-              placeholder="description"
-              ref="description"
-              size="60"
-            />
-          </div>
-          <div class="col-4">
-            <input
-              type="text"
-              v-model="referForm.published"
-              placeholder="published"
-              ref="published"
-              size="60"
-            />
-          </div>
-          <input type="submit" value="Create Merchant" />
-
-          <!-- <div v-if="referralStore.loggedIn == null"> -->
-
-          <button
-            @click="redirect_to_login"
-            class="btn btn-success"
-            id="login_button"
-          >
-            Login
-          </button>
-        </div>
-      </form>
-
-      <div class="row"><h3>Referrals List</h3></div>
-      <!-- <div>{{ referrals }}</div> -->
-
-      <div class="row">
-        <div class="col-1" id="list-header">Your Name</div>
-        <div class="col-1" id="list-header">Referral Name</div>
-        <div class="col-1" id="list-header">Agent Name</div>
-        <div class="col-1" id="list-header">Agent Code</div>
-        <div class="col-1" id="list-header">Business Name</div>
-        <div class="col-1" id="list-header">Phone</div>
-        <!-- <div class="col-1" id="list-header">Email</div> -->
-        <!-- <div class="col-1" id="list-header">SS Number</div> -->
-        <div class="col-1" id="list-header">Bank Name</div>
-        <div class="col-2" id="list-header">Routing Number</div>
-        <div class="col-2" id="list-header">Account Number</div>
-        <!--<div class="col-2" id="list-header">Notes</div>
-        <div class="col-2" id="list-header">Description</div>
-        <div class="col-2" id="list-header">Published</div> -->
       </div>
 
-      <div
-        class="row"
-        v-for="referral in referrals"
-        v-bind:key="referral.yourname"
-      >
-        <div class="col-1">{{ referral.yourname }}</div>
-        <div class="col-1">{{ referral.referralname }}</div>
-        <div class="col-1">{{ referral.agentname }}</div>
-        <div class="col-1">{{ referral.agentcode }}</div>
-        <div class="col-1">{{ referral.businessname }}</div>
-        <div class="col-1">{{ referral.phone }}</div>
-        <!-- <div class="col-2">{{ referral.email }}</div> -->
-        <!-- <div class="col-1">{{ referral.ss }}</div> -->
-        <div class="col-1">{{ referral.bankname }}</div>
-        <div class="col-2">{{ referral.routingnumber }}</div>
-        <div class="col-2">{{ referral.accountnumber }}</div>
-        <!--<div class="col-2">{{ referral.title }}</div>
+      <div class="my-row">
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.agentname"
+            placeholder="agentname"
+            ref="agentname"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.refagentcode"
+            placeholder="refagentcode"
+            ref="refagentcode"
+          />
+        </div>
+      </div>
+
+      <div class="my-row">
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.businessname"
+            placeholder="businessname"
+            ref="businessname"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.phone"
+            placeholder="phone"
+            ref="phone"
+          />
+        </div>
+      </div>
+
+      <div class="my-row">
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.title"
+            placeholder="title"
+            ref="title"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            v-model="referForm.description"
+            placeholder="description"
+            ref="description"
+          />
+        </div>
+      </div>
+
+      <div class="center-btns">
+        <input type="submit" value="Refer Now" id="submit-style" />
+        <div class="or"><em>OR</em></div>
+
+        <!-- <div v-if="referralStore.loggedIn == null"> -->
+
+        <button
+          @click="redirect_to_login"
+          class="btn btn-success"
+          id="login_button"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+
+    <div class="row"><h3>Referrals List</h3></div>
+    <!-- <div>{{ referrals }}</div> -->
+
+    <div class="row">
+      <div class="col-1" id="list-header">Your Name</div>
+      <div class="col-1" id="list-header">Referral Name</div>
+      <div class="col-1" id="list-header">Agent Name</div>
+      <div class="col-1" id="list-header">Agent Code</div>
+      <div class="col-1" id="list-header">Business Name</div>
+      <div class="col-1" id="list-header">Phone</div>
+      <div class="col-2" id="list-header">Notes</div>
+      <div class="col-2" id="list-header">Description</div>
+    </div>
+
+    <div
+      class="row"
+      v-for="referral in referrals"
+      v-bind:key="referral.yourname"
+    >
+      <div class="col-1">{{ referral.yourname }}</div>
+      <div class="col-1">{{ referral.referralname }}</div>
+      <div class="col-1">{{ referral.agentname }}</div>
+      <div class="col-1">{{ referral.agentcode }}</div>
+      <div class="col-1">{{ referral.businessname }}</div>
+      <div class="col-1">{{ referral.phone }}</div>
+      <div class="col-2">{{ referral.title }}</div>
       <div class="col-2">{{ referral.description }}</div>
-      <div class="col-2">{{ referral.published }}</div> -->
 
-        <div class="col-1">
-          <a @click="editReferral(referral)" class="btn">[E]</a>
-          <a @click="removeReferral(referral)" class="btn">[X]</a>
-        </div>
+      <div class="col-1">
+        <a @click="editReferral(referral)" class="btn" id="line_btn_ed">[E]</a>
+        <a @click="removeReferral(referral)" class="btn" id="line_btn_x">[X]</a>
       </div>
     </div>
+  </div>
+  <div v-else class="thanks">
+    <!-- <div class="thanks"> -->
+    <img
+      alt="Pie Logo"
+      class="nav_logo"
+      src="@/assets/images/pie_logo.png"
+      height="100"
+    />
+    <h3>Thanks for your Referral</h3>
+    <h3>We will contact your agent!</h3>
+    <p>You should receive a call shortly!</p>
+    <!-- <h4>Thanks {{ user.firstName }}</h4> -->
+    <!-- <h4>Agent {{ user.agentName }} will contact you shortly!</h4> -->
+    <button class="btn btn-success" @click="newReferral">Add Another</button>
   </div>
 </template>
 
@@ -245,6 +188,7 @@ export default {
         description: "",
         published: "",
       },
+      referred: false,
       referrals: [],
       fruits: [],
       method: "",
@@ -269,6 +213,7 @@ export default {
     },
     // ################## REFERRAL SECTION ############################# \\
     async _refreshReferralData() {
+      this.referred = false;
       console.log("GET ALL REFERRAL DATA get referrals ");
       const referralResults = await fetch("/api/referrals", {
         method: "GET",
@@ -289,14 +234,8 @@ export default {
       this.referForm.refagentcode = referral.agentcode;
       this.referForm.businessname = referral.businessname;
       this.referForm.phone = referral.phone;
-      this.referForm.email = referral.email;
-      this.referForm.ss = referral.ss;
-      this.referForm.bankname = referral.bankname;
-      this.referForm.routingnumber = referral.routingnumber;
-      this.referForm.accountnumber = referral.accountnumber;
       this.referForm.title = referral.title;
       this.referForm.description = referral.description;
-      this.referForm.published = referral.published;
       console.log("EDIT REFERRAL this.userForm.id >>> ", this.referForm.id);
     },
     async removeReferral(referral) {
@@ -308,21 +247,16 @@ export default {
         .catch(this._referralError);
     },
     async updateReferrals() {
-      console.log("<< SAVE A REFERRAL >>");
+      this.referred = true;
+      console.log("<< SAVE A REFERRAL referred is : true? >>", this.referred);
       this.referForm.yourname = this.$refs.yourname.value;
       this.referForm.referralname = this.$refs.referralname.value;
       this.referForm.agentname = this.$refs.agentname.value;
       this.referForm.refagentcode = this.$refs.refagentcode.value;
       this.referForm.businessname = this.$refs.businessname.value;
       this.referForm.phone = this.$refs.phone.value;
-      this.referForm.email = this.$refs.email.value;
-      this.referForm.ss = this.$refs.ss.value;
-      this.referForm.bankname = this.$refs.bankname.value;
-      this.referForm.routingnumber = this.$refs.routingnumber.value;
-      this.referForm.accountnumber = this.$refs.accountnumber.value;
       this.referForm.title = this.$refs.title.value;
       this.referForm.description = this.$refs.description.value;
-      this.referForm.published = this.$refs.published.value;
       console.log("REFERRAL ID ", this.referForm.id);
       if (this.referForm.id == -1) {
         console.log(
@@ -337,15 +271,9 @@ export default {
         this.data.agentcode = this.referForm.refagentcode;
         this.data.businessname = this.referForm.businessname;
         this.data.phone = this.referForm.phone;
-        this.data.email = this.referForm.email;
-        this.data.ss = this.referForm.ss;
-        this.data.bankname = this.referForm.bankname;
-        this.data.routingnumber = this.referForm.routingnumber;
-        this.data.accountnumber = this.referForm.accountnumber;
         this.data.title = this.referForm.title;
         this.data.description = this.referForm.description;
-        this.data.published = this.referForm.published;
-
+        console.log("REFERRAL POST url: ", this.url);
         console.log("REFERRAL.DATA POST TO FETCH", this.data);
       } else {
         console.log("updateReferrals UPDATE REFERRAL by PUT");
@@ -357,14 +285,8 @@ export default {
         this.data.agentcode = this.referForm.refagentcode;
         this.data.businessname = this.referForm.businessname;
         this.data.phone = this.referForm.phone;
-        this.data.email = this.referForm.email;
-        this.data.ss = this.referForm.ss;
-        this.data.bankname = this.referForm.bankname;
-        this.data.routingnumber = this.referForm.routingnumber;
-        this.data.accountnumber = this.referForm.accountnumber;
         this.data.title = this.referForm.title;
         this.data.description = this.referForm.description;
-        this.data.published = this.referForm.published;
         console.log("REFERRAL.UPDATE > PUT TO FETCH", this.data);
       }
 
@@ -396,17 +318,16 @@ export default {
       this.referForm.refagentcode = "";
       this.referForm.businessname = "";
       this.referForm.phone = "";
-      this.referForm.email = "";
-      this.referForm.ss = "";
-      this.referForm.bankname = "";
-      this.referForm.routingnumber = "";
-      this.referForm.accountnumber = "";
       this.referForm.title = "";
       this.referForm.description = "";
-      this.referForm.published = "";
       this.referForm.id = -1;
     },
+    newReferral() {
+      this.referred = false;
+      this._clearReferralForm();
+    },
   },
+
   mounted: function () {
     this._refreshReferralData();
   },
@@ -415,7 +336,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@import "@/assets/base.css";
 @import "@/assets/main.css";
+body {
+  margin: 0px;
+  padding: 0px;
+}
 h3 {
   margin: 4px 0 0;
 }
@@ -431,10 +357,39 @@ a {
   color: #42b983;
 }
 
-input[type="number"] {
-  width: 80%;
-  padding: 12px 20px;
-  margin: 8px 0;
+button {
+  color: white;
+  background-color: limegreen;
+}
+
+#line_btn_ed {
+  padding: 1px, 1px, 1px, 1px;
+  color: white;
+  font: bolder;
+  background-color: rgb(14, 168, 251);
+}
+
+#line_btn_x {
+  padding: 1px, 1px, 1px, 1px;
+  color: white;
+  font: bolder;
+  background-color: red;
+}
+
+#submit-style {
+  color: white;
+  background-color: limegreen;
+}
+.input-box {
+  width: 100%;
+  margin-top: 2%;
+}
+
+input[type="text"] {
+  width: 96%;
+  padding: 2%px 5%px;
+  margin-left: 2%;
+  margin-right: 2%;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -444,34 +399,126 @@ input[type="number"] {
   outline: 0;
   font-family: "Open Sans", serif;
 }
-.header_row {
+.my-row {
   display: flex;
-  background-color: whitesmoke;
 }
 
-#form_bg {
+/* #form_bg {
   width: 75vw;
+  margin-top: 15vh;
+  margin-left: auto;
+  margin-right: auto;
   background-color: rgba(255, 255, 255, 0.4);
   border-style: solid;
   border-width: 1px;
   border-color: whitesmoke;
+} */
+.center-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  right: 15px;
+  margin-bottom: 2%;
+  margin-top: 2%;
 }
-.main {
-}
-
 .my-header {
   display: flex;
+  margin-bottom: 3vh;
   background-color: rgba(255, 255, 255, 0.4);
 }
-.my-header h2 {
+.my-header h3 {
   margin-left: 2vw;
   margin-top: 1vh;
 }
 
+.or {
+  font-size: medium;
+  font-weight: bolder;
+  margin-top: 16px;
+}
+
+.thanks {
+  background-color: lightgrey;
+}
+
+@media only screen and (min-width: 1025px) {
+  .input-box {
+    width: 98%;
+  }
+  #form_bg {
+    width: 75vw;
+    margin-top: 15vh;
+    margin-left: -0.4vw;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .input-box {
+    width: 98%;
+  }
+
+  #form_bg {
+    width: 75vw;
+    margin-top: 15vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .my-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-box {
+    width: 98%;
+    margin-top: 2%;
+  }
+
+  #form_bg {
+    width: 75vw;
+    margin-top: 15vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+}
+
+@media only screen and (min-width: 380px) and (max-width: 480px) {
+  .my-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-box {
+    width: 98%;
+    margin-top: 1%;
+  }
+
+  #form_bg {
+    width: 75vw;
+    margin-top: 15vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+}
+
 /* form {
-  width: 85vw;
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-top: 2%;
+  width: 100%;
 } */
 </style>

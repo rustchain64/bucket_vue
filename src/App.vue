@@ -13,7 +13,7 @@ const authStore = useAuthStore();
 
   <!-- <div v-show="authStore.user" navbar-nav> -->
   <div class="wrapper">
-    <div class="nav_wrapper">
+    <div class="nav_wrapper" v-show="authStore.user">
       <img
         alt="Pie Logo"
         class="nav_logo"

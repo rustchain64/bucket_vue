@@ -3,28 +3,28 @@ import http from "../http-common";
 class AgentCodeDataService {
   getAll() {
     console.log("Get All Codes");
-    return http.get("/agentCodes");
+    return http.get("/codes");
   }
 
   get(id) {
-    return http.get(`/agentCodes/${id}`);
+    return http.get(`/codes/${id}`);
   }
 
   create(data) {
     console.log("Service DATA: ", data);
-    return http.post("/agentCodes", data);
+    return http.post("/codes", data);
   }
 
   update(id, data) {
-    return http.put(`/agentCodes/${id}`, data);
+    return http.put(`/codes/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/agentCodes/${id}`);
+    return http.delete(`/codes/${id}`);
   }
 
   deleteAll() {
-    return http.delete(`/agentCodes`);
+    return http.delete(`/codes`);
   }
 }
 
