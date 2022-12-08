@@ -9,60 +9,58 @@ import { router } from "@/router";
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
+console.log("USER PERSONA: ", user.persona);
 </script>
 
 <template>
   <div>IS USER: {{ user }}</div>
-  <div v-if="user">
-    <!-- A FULL LIST OF THE USER OBJECT -->
-    <!-- <div>get user.persona : {{user.persona}}</div> -->
-    <!-- <div><span class="welcome-text"><h2>Welcome</h2>{{user.persona}} : {{user.firstName}} </span></div> -->
+  <!-- <div v-if="user"> -->
+  <!-- A FULL LIST OF THE USER OBJECT -->
+  <!-- <div>get user.persona : {{user.persona}}</div> -->
+  <!-- <div><span class="welcome-text"><h2>Welcome</h2>{{user.persona}} : {{user.firstName}} </span></div> -->
 
-    <div class="main_header">
-      <span v-if="user.persona !== 'admin'" class="welcome-text"
-        >{{ user.persona }} : {{ user.firstName }}
-      </span>
+  <div class="main_header">
+    <span v-if="user.persona !== 'admin'" class="welcome-text"
+      >{{ user.persona }} : {{ user.firstName }}
+    </span>
 
-      <!-- <span v-if="user.persona == 'admin'"><button @click="adminDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span> -->
-      <span v-if="user.persona == 'merchant'"
-        ><button
-          @click="merchantDashboard"
-          class="btn btn-success"
-          id="dash-button"
-        >
-          Merchant Dashboard
-        </button></span
+    <!-- <span v-if="user.persona == 'admin'"><button @click="adminDashboard" class="btn btn-success" id="dash-button">Admin Dashboard</button></span> -->
+    <span v-if="user.persona == 'merchant'"
+      ><button
+        @click="merchantDashboard"
+        class="btn btn-success"
+        id="dash-button"
       >
-      <span v-if="user.persona == 'agent'"
-        ><button
-          @click="agentDashboard"
-          class="btn btn-success"
-          id="dash-button"
-        >
-          Agent Dashboard
-        </button></span
-      >
-    </div>
-
-    <!-- SELECT A VIEW ACCORDING TO USER PERSONA upon login -->
-    <!-- <ReferralsList /> -->
-    <div v-if="user.persona == 'admin'">
-      <AdminDashboardVue />
-      <!-- <div class="agent_list"><ReferralsList /></div> -->
-      <!-- <div class="agent_register"><RegisterMerchant /></div> -->
-    </div>
-    <div v-else-if="user.persona == 'agent'">
-      <!-- change the form from the same as merchant to the complete form -->
-      <!-- <ReferralView />  THis Referral View is actually the update form-->
-      <ReferralsList />
-      <!-- <div class="agent_list"><ReferralsList /></div> -->
-      <!-- <div class="agent_register"><ReferralsList /></div> -->
-    </div>
-    <div v-else>
-      <!-- AddReferralView Loads: AddReferral.vue -->
-      <AddReferralView />
-    </div>
+        Merchant Dashboard
+      </button></span
+    >
+    <span v-if="user.persona == 'agent'"
+      ><button @click="agentDashboard" class="btn btn-success" id="dash-button">
+        Agent Dashboard
+      </button></span
+    >
   </div>
+
+  <!-- SELECT A VIEW ACCORDING TO USER PERSONA upon login -->
+  <!-- <ReferralsList /> -->
+  <div v-if="user.persona == 'admin'">
+    <AdminDashboardVue />
+    <!-- <div class="agent_list"><ReferralsList /></div> -->
+    <!-- <div class="agent_register"><RegisterMerchant /></div> -->
+  </div>
+  <div v-else-if="user.persona == 'agent'">
+    <!-- change the form from the same as merchant to the complete form -->
+    <!-- <ReferralView />  THis Referral View is actually the update form-->
+    <ReferralsList />
+    <!-- <div class="agent_list"><ReferralsList /></div> -->
+    <!-- <div class="agent_register"><ReferralsList /></div> -->
+  </div>
+  <div v-else>
+    <div>HOME PAGE default to AddReferralView => loads REFERRAL WORLD</div>
+    <!-- AddReferralView Loads: AddReferral.vue -->
+    <AddReferralView />
+  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -113,7 +111,7 @@ export default {
   float: right;
   margin-right: 25px;
   margin-top: 4px;
-  background: url(@/assets/dash_button.png) 3px 5px no-repeat;
+  background: url(@/assets/images/dash_button.png) 3px 5px no-repeat;
   background-color: white;
 }
 </style>

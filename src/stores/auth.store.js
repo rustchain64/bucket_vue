@@ -4,8 +4,6 @@ import { defineStore } from "pinia";
 import { router } from "@/router";
 // import { useAlertStore } from "@/stores";
 
-// const baseUrl = `http://localhost:8080/api/users`;
-
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
@@ -14,7 +12,7 @@ export const useAuthStore = defineStore({
     returnUrl: null,
   }),
   actions: {
-    login(userData) {
+    async login(userData) {
       console.log("from auth.store: userData ", userData);
       // PASS THE INFO INOT AUTH STORE DIRECTLY AS WE NOW HAVE IT
       // update pinia state

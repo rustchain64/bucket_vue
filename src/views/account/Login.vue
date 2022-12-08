@@ -93,11 +93,11 @@ export default {
         // DECIDE WHICH PERSONA PROFILE PAGE TO LOAD
         if (resultData.persona == "merchant") {
           console.log("PERSONA is merchant? : ", resultData.persona);
-          router.push(this.returnUrl || "/home");
+          router.push(this.returnUrl || "/merchant");
         }
         if (resultData.persona == "agent") {
           console.log("PERSONA is agent? : ", resultData.persona);
-          router.push(this.returnUrl || "/referrals");
+          router.push(this.returnUrl || "/agent");
         }
         if (resultData.persona == "admin") {
           console.log("PERSONA is admin? : ", resultData.persona);

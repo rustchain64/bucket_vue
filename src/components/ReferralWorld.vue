@@ -1,5 +1,4 @@
 <template>
-  <h1>{{ msg }}</h1>
   <div v-if="referred == false" id="form_bg">
     <!-- <div id="form_bg"> -->
     <div class="my-header">
@@ -9,7 +8,13 @@
         src="@/assets/images/pie_logo.png"
         height="60"
       />
-      <h3>Who would you like to refer?</h3>
+      <div v-if="this.userfirstname != null">
+        <span class="dash-row"
+          >Hello {{ this.userfirstname }} Who would you like to refer?
+        </span>
+        <button @click="merchantDashboard" id="dash-button">Dashboard</button>
+      </div>
+      <div v-else class="dash-row-default">Who would you like to refer?</div>
     </div>
     <form @submit.prevent="updateReferrals">
       <div class="my-row">
@@ -17,7 +22,7 @@
           <input
             type="text"
             v-model="referForm.yourname"
-            placeholder="yourname"
+            placeholder="Your Name"
             ref="yourname"
           />
         </div>
@@ -25,7 +30,7 @@
           <input
             type="text"
             v-model="referForm.referralname"
-            placeholder="referralname"
+            placeholder="Your Referral's Name"
             ref="referralname"
           />
         </div>
@@ -36,7 +41,7 @@
           <input
             type="text"
             v-model="referForm.agentname"
-            placeholder="agentname"
+            placeholder="Your Agent's Name"
             ref="agentname"
           />
         </div>
@@ -44,7 +49,7 @@
           <input
             type="text"
             v-model="referForm.refagentcode"
-            placeholder="refagentcode"
+            placeholder="Agent's Code"
             ref="refagentcode"
           />
         </div>
@@ -55,7 +60,7 @@
           <input
             type="text"
             v-model="referForm.businessname"
-            placeholder="businessname"
+            placeholder="Referral's Business Name"
             ref="businessname"
           />
         </div>
@@ -63,7 +68,7 @@
           <input
             type="text"
             v-model="referForm.phone"
-            placeholder="phone"
+            placeholder="Referral's Phone"
             ref="phone"
           />
         </div>
@@ -74,7 +79,7 @@
           <input
             type="text"
             v-model="referForm.title"
-            placeholder="title"
+            placeholder="Notes"
             ref="title"
           />
         </div>
@@ -82,7 +87,7 @@
           <input
             type="text"
             v-model="referForm.description"
-            placeholder="description"
+            placeholder="Description"
             ref="description"
           />
         </div>
@@ -90,65 +95,79 @@
 
       <div class="center-btns">
         <input type="submit" value="Refer Now" id="submit-style" />
-        <div class="or"><em>OR</em></div>
+        <div v-if="this.userfirstname == null">
+          <span class="or"><em>OR</em></span>
+          <button
+            @click="redirect_to_login"
+            class="btn btn-success"
+            id="login_button"
+          >
+            Login
+          </button>
+        </div>
 
         <!-- <div v-if="referralStore.loggedIn == null"> -->
-
-        <button
-          @click="redirect_to_login"
-          class="btn btn-success"
-          id="login_button"
-        >
-          Login
-        </button>
       </div>
     </form>
 
-    <div class="row"><h3>Referrals List</h3></div>
-    <!-- <div>{{ referrals }}</div> -->
+    <div v-if="this.test == 'true'">
+      <div class="row"><h3>Referrals List</h3></div>
+      <!-- <div>{{ referrals }}</div> -->
 
-    <div class="row">
-      <div class="col-1" id="list-header">Your Name</div>
-      <div class="col-1" id="list-header">Referral Name</div>
-      <div class="col-1" id="list-header">Agent Name</div>
-      <div class="col-1" id="list-header">Agent Code</div>
-      <div class="col-1" id="list-header">Business Name</div>
-      <div class="col-1" id="list-header">Phone</div>
-      <div class="col-2" id="list-header">Notes</div>
-      <div class="col-2" id="list-header">Description</div>
-    </div>
+      <div class="row">
+        <div class="col-1" id="list-header">Your Name</div>
+        <div class="col-1" id="list-header">Referral Name</div>
+        <div class="col-1" id="list-header">Agent Name</div>
+        <div class="col-1" id="list-header">Agent Code</div>
+        <div class="col-1" id="list-header">Business Name</div>
+        <div class="col-1" id="list-header">Phone</div>
+        <div class="col-2" id="list-header">Notes</div>
+        <div class="col-2" id="list-header">Description</div>
+      </div>
 
-    <div
-      class="row"
-      v-for="referral in referrals"
-      v-bind:key="referral.yourname"
-    >
-      <div class="col-1">{{ referral.yourname }}</div>
-      <div class="col-1">{{ referral.referralname }}</div>
-      <div class="col-1">{{ referral.agentname }}</div>
-      <div class="col-1">{{ referral.agentcode }}</div>
-      <div class="col-1">{{ referral.businessname }}</div>
-      <div class="col-1">{{ referral.phone }}</div>
-      <div class="col-2">{{ referral.title }}</div>
-      <div class="col-2">{{ referral.description }}</div>
+      <div
+        class="row"
+        v-for="referral in referrals"
+        v-bind:key="referral.yourname"
+      >
+        <div class="col-1">{{ referral.yourname }}</div>
+        <div class="col-1">{{ referral.referralname }}</div>
+        <div class="col-1">{{ referral.agentname }}</div>
+        <div class="col-1">{{ referral.agentcode }}</div>
+        <div class="col-1">{{ referral.businessname }}</div>
+        <div class="col-1">{{ referral.phone }}</div>
+        <div class="col-2">{{ referral.title }}</div>
+        <div class="col-2">{{ referral.description }}</div>
 
-      <div class="col-1">
-        <a @click="editReferral(referral)" class="btn" id="line_btn_ed">[E]</a>
-        <a @click="removeReferral(referral)" class="btn" id="line_btn_x">[X]</a>
+        <div class="col-1">
+          <a @click="editReferral(referral)" class="btn" id="line_btn_ed"
+            >[E]</a
+          >
+          <a @click="removeReferral(referral)" class="btn" id="line_btn_x"
+            >[X]</a
+          >
+        </div>
       </div>
     </div>
   </div>
-  <div v-else class="thanks">
+  <div v-if="referred == true" class="thanks">
     <!-- <div class="thanks"> -->
     <img
       alt="Pie Logo"
-      class="nav_logo"
+      class="thanks_logo"
       src="@/assets/images/pie_logo.png"
-      height="100"
     />
-    <h3>Thanks for your Referral</h3>
-    <h3>We will contact your agent!</h3>
-    <p>You should receive a call shortly!</p>
+
+    <div v-if="this.userfirstname != null">
+      <h3>Thanks {{ this.userfirstname }} for your referral</h3>
+      <p>Your agent should call you shortly!</p>
+    </div>
+    <div v-else>
+      <h3>Thanks for your Referral</h3>
+      <h3>We will contact your agent!</h3>
+      <p>You should receive a call shortly!</p>
+    </div>
+
     <!-- <h4>Thanks {{ user.firstName }}</h4> -->
     <!-- <h4>Agent {{ user.agentName }} will contact you shortly!</h4> -->
     <button class="btn btn-success" @click="newReferral">Add Another</button>
@@ -159,6 +178,7 @@
 import { router } from "@/router";
 import { useAlertStore } from "@/stores/alert.store";
 import { useReferralStore } from "@/stores/refer.store";
+import { useAuthStore } from "@/stores";
 export default {
   name: "ReferralWorld",
   props: {
@@ -196,6 +216,8 @@ export default {
       data: {},
       fruit: "",
       referral: "",
+      test: "false",
+      userfirstname: null,
     };
   },
   methods: {
@@ -213,7 +235,7 @@ export default {
     },
     // ################## REFERRAL SECTION ############################# \\
     async _refreshReferralData() {
-      this.referred = false;
+      // this.referred = false;
       console.log("GET ALL REFERRAL DATA get referrals ");
       const referralResults = await fetch("/api/referrals", {
         method: "GET",
@@ -303,6 +325,11 @@ export default {
     _referralSuccess(response) {
       console.log("response referral data: ", response);
       this._clearReferralForm();
+      // set 8 second interval
+      setTimeout(this._fun, 8000);
+    },
+    _fun() {
+      this.referred = false;
       this._refreshReferralData();
     },
     _referralError(response) {
@@ -326,10 +353,27 @@ export default {
       this.referred = false;
       this._clearReferralForm();
     },
+    merchantDashboard() {
+      console.log("dashboard Merchant");
+      router.push("/merchantDashboard");
+    },
   },
 
   mounted: function () {
     this._refreshReferralData();
+
+    console.log("is there a AUTHENTICATE user? ", useAuthStore().user);
+    if (useAuthStore().user) {
+      console.log("POST AUTH USER STATE IS: ", useAuthStore().user);
+      this.userfirstname = useAuthStore().user.firstname;
+    } else {
+      console.log("else INIT AUTH USER STATE IS: ", useAuthStore().user);
+    }
+    // const authStore = useAuthStore();
+    // if (authStore.user) {
+    //   console.log("user id ");
+    //   authStore.logout();
+    // }
   },
 };
 </script>
@@ -379,6 +423,7 @@ button {
 #submit-style {
   color: white;
   background-color: limegreen;
+  height: 40px;
 }
 .input-box {
   width: 100%;
@@ -423,12 +468,30 @@ input[type="text"] {
 }
 .my-header {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 3vh;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.4);
 }
-.my-header h3 {
-  margin-left: 2vw;
-  margin-top: 1vh;
+.dash-row {
+  color: rgb(31, 30, 30);
+  font-size: 2em;
+  font-weight: 300;
+  margin-top: 2vh;
+}
+
+.dash-row-default {
+  font-size: 2em;
+}
+
+#dash-button {
+  color: black;
+  font-weight: 400;
+  width: 120px;
+  margin-left: 20px;
+  background: url(@/assets/images/dash_button.png) 3px 5px no-repeat;
+  background-color: white;
 }
 
 .or {
@@ -438,7 +501,21 @@ input[type="text"] {
 }
 
 .thanks {
-  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding-left: auto;
+  padding-right: auto;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  background-color: rgb(222, 221, 221);
+}
+
+.thanks_logo {
+  width: 50vw;
+  margin: 0 auto;
 }
 
 @media only screen and (min-width: 1025px) {

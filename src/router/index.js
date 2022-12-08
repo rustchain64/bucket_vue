@@ -8,16 +8,19 @@ import AdminDashboard from "../views/AdminDashboard.vue";
 import MerchantDashboard from "../views/MerchantDashboard.vue";
 import AgentDashboard from "../views/AgentDashboard.vue";
 import ListView from "../views/referrals/ListView.vue";
+import ReferralWorld from "@/components/ReferralWorld.vue";
 
 export const router = createRouter({
   history: createWebHistory(),
   linkActiveClass: "active",
   routes: [
     { path: "/", component: Home },
+    { path: "/home", component: Home },
     { ...accountRoutes },
     { ...usersRoutes },
     { ...referralsRoutes },
-    { path: "/referrals", component: ListView },
+    { path: "/merchant", component: ReferralWorld },
+    { path: "/agent", component: ListView },
     { path: "/adminDashboard", component: AdminDashboard },
     { path: "/merchantDashboard", component: MerchantDashboard },
     { path: "/agentDashboard", component: AgentDashboard },
