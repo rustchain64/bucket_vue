@@ -107,7 +107,7 @@ export default {
 }
 #dash-button {
   color: black;
-  font-weight: bold;
+  font-weight: bolder;
   float: right;
   margin-right: 25px;
   margin-top: 4px;

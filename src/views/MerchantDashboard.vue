@@ -11,18 +11,21 @@ const { user } = storeToRefs(authStore);
 
 <template>
   <div v-if="user">
-    <div>
-      <div class="pie" id="pie_left">
-        <h2>Referrals by Status</h2>
-        <PieChart />
+    <div class="wrapper">
+      <div class="charting">
+        <div class="pie" id="pie_left">
+          <h2>Referrals by Status</h2>
+          <PieChart />
+        </div>
+        <div class="line" id="line_right">
+          <h2>Referrals Rewards</h2>
+          <LineChart />
+        </div>
       </div>
-      <div class="line" id="line_right">
-        <h2>Referrals Rewards</h2>
-        <LineChart />
-      </div>
-      <div class="line">
+
+      <div class="line-spread">
         <h2>Referrals Details</h2>
-        <div>
+        <div class="table-wrapper">
           <div class="card-header" id="details_header">
             <span class="spread">Merchant Name</span>
             <span class="spread">Representative</span>
@@ -48,26 +51,39 @@ const { user } = storeToRefs(authStore);
 </template>
 
 <style scoped>
-.main_header {
+.wrapper {
   background-color: silver;
-  display: flex;
-  justify-content: space-between;
+  width: 75vw;
 }
 
-.page-width {
-  width: 90vw;
+.table-wrapper {
+  width: 85%;
 }
 
 #pie_left {
-  float: left;
+  width: 45%;
+  /* float: left; */
 }
 
 #line_right {
-  float: right;
+  width: 40%;
+  /* float: right; */
 }
-
-.line {
+.charting {
+  display: flex;
+  flex-direction: row;
+  background-color: whitesmoke;
+  width: 100%;
+  padding-top: 1%;
+  padding-right: 1%;
+  padding-left: 2%;
+}
+.line-spread {
   clear: both;
+  background-color: rgb(208, 206, 206);
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding-left: 2%;
 }
 .welcome-text {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,

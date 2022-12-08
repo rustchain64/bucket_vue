@@ -19,13 +19,15 @@ const schema = Yup.object().shape({
 <template>
   <div class="main">
     <div id="form_bg">
-      <img
-        alt="Go Free logo"
-        class="logo"
-        src="@/assets/images/pie_logo.png"
-        width="400"
-      />
-      <h4 class="my-header">Login</h4>
+      <div class="login-header">
+        <img
+          alt="Pile Logo"
+          class="pie-logo"
+          src="@/assets/images/pie_logo.png"
+          width="300"
+        />
+        <!-- <div class="login-text">Login</div> -->
+      </div>
 
       <Form
         @submit="redirect_to_referrals"
@@ -52,18 +54,24 @@ const schema = Yup.object().shape({
           />
           <div class="invalid-feedback">{{ errors.password }}</div>
         </div>
-        <div class="form-group">
+        <div>
+          <router-link to="register" class="btn btn-link" id="forgot-pwd"
+            >Forgot Password</router-link
+          >
+        </div>
+        <div class="center-btns">
           <button
             class="btn btn-success"
-            id="login_button"
+            id="login-button"
             :disabled="isSubmitting"
           >
             Login
           </button>
-          <router-link to="register" class="btn btn-link">Register</router-link>
         </div>
       </Form>
-      <UserWorld />
+      <div v-if="test == true">
+        <UserWorld />
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +85,7 @@ export default {
       username: "",
       password: "",
       persona: "",
+      test: false,
     };
   },
   methods: {
@@ -114,9 +123,17 @@ export default {
 </script>
 
 <style scoped>
+label {
+  color: rgb(31, 30, 30);
+  font-weight: 700;
+}
+main {
+  width: 100vw;
+  background-color: white;
+}
 #form_bg {
   width: 75vw;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 1);
   border-style: solid;
   border-width: 1px;
   border-color: whitesmoke;
@@ -135,10 +152,50 @@ export default {
     top:50%;
     transform:translate(-50%, -50%);
 } */
-.my-header {
+.login-header {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.1);
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.4);
   padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.pie-logo {
+  margin-right: 5%;
+}
+.login-text {
+  color: rgb(31, 30, 30);
+  font-size: 3em;
+  font-weight: 600;
+  padding-top: 3%;
+  padding-right: 6%;
+}
+.center-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  right: 1px;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+
+#forgot-pwd {
+  display: flex;
+  justify-content: right;
+  width: 93%;
+  color: rgb(31, 30, 30);
+  background-color: transparent;
+}
+
+#login-button {
+  width: 85%;
+  height: 40pt;
+  margin-bottom: 10%;
+  border-radius: 20pt;
+  border: 1pt solid #f48ace;
+  text-align: center;
+  background: linear-gradient(45deg, #5fbceb 0%, #f48ace 100%);
 }
 
 /* Form {
@@ -148,6 +205,7 @@ export default {
   margin-top: 1%;
 } */
 #input-width {
-  width: 99%;
+  margin-left: 5%;
+  width: 90%;
 }
 </style>

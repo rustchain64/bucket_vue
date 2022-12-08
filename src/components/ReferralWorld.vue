@@ -3,8 +3,8 @@
     <!-- <div id="form_bg"> -->
     <div class="my-header">
       <img
-        alt="Go Free logo"
-        class="nav_logo"
+        alt="Pie logo"
+        class="pie-header_logo"
         src="@/assets/images/pie_logo.png"
         height="60"
       />
@@ -12,9 +12,12 @@
         <span class="dash-row"
           >Hello {{ this.userfirstname }} Who would you like to refer?
         </span>
+        <span id="line-space">&nbsp;</span>
         <button @click="merchantDashboard" id="dash-button">Dashboard</button>
       </div>
-      <div v-else class="dash-row-default">Who would you like to refer?</div>
+      <div v-else class="dash-row-default">
+        <div>Who would you like to refer?</div>
+      </div>
     </div>
     <form @submit.prevent="updateReferrals">
       <div class="my-row">
@@ -469,27 +472,37 @@ input[type="text"] {
 .my-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 3vh;
   width: 100%;
+  height: 70px;
   background-color: rgba(255, 255, 255, 0.4);
 }
+.pie-header_logo {
+  margin-right: 2%;
+}
 .dash-row {
+  justify-content: space-between;
   color: rgb(31, 30, 30);
   font-size: 2em;
-  font-weight: 300;
-  margin-top: 2vh;
+  font-weight: 400;
+  margin-top: 4vh;
 }
 
+#line-space {
+  width: 20%;
+}
 .dash-row-default {
+  color: rgb(31, 30, 30);
   font-size: 2em;
+  font-weight: 400;
+  margin-top: 1vh;
+  margin-left: 1%;
 }
 
 #dash-button {
-  color: black;
-  font-weight: 400;
+  color: rgb(31, 30, 30);
+  font-weight: 600;
   width: 120px;
-  margin-left: 20px;
   background: url(@/assets/images/dash_button.png) 3px 5px no-repeat;
   background-color: white;
 }
@@ -501,12 +514,11 @@ input[type="text"] {
 }
 
 .thanks {
+  margin: 0 auto;
+  padding: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
-  padding-left: auto;
-  padding-right: auto;
   height: 100vh;
   width: 100vw;
   text-align: center;

@@ -21,8 +21,8 @@ console.log("user is: ", user);
         <input
           type="text"
           class="form-control"
-          placeholder="Search by title"
-          v-model="title"
+          placeholder="Search by Your Name"
+          v-model="yourname"
         />
         <div class="input-group-append">
           <button
@@ -115,7 +115,7 @@ console.log("user is: ", user);
 </template>
 
 <script>
-import DataService from "../services/DataService";
+// import DataService from "../services/DataService";
 
 export default {
   name: "referral-list",
@@ -125,6 +125,7 @@ export default {
       currentReferral: null,
       currentIndex: -1,
       title: "",
+      yourname: "",
       userData: "",
     };
   },
@@ -136,16 +137,30 @@ export default {
     //this.searchReferral();
   },
   methods: {
-    retrieveReferrals() {
-      console.log("GETTING ALL REFERRALS");
-      DataService.getAll()
-        .then((response) => {
-          this.referrals = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    // retrieveReferrals() {
+    //   console.log("GETTING ALL REFERRALS");
+    //   DataService.getAll()
+    //     .then((response) => {
+    //       this.referrals = response.data;
+    //       console.log(response.data);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
+
+    async retrieveReferrals() {
+      // this.referred = false;
+      console.log("GET ALL REFERRAL DATA get referrals ");
+      const referralResults = await fetch("/api/referrals", {
+        method: "GET",
+      });
+      if (referralResults.ok) {
+        const resultData = await referralResults.json();
+        this.referrals = resultData;
+      } else {
+        console.log(referralResults.statusText);
+      }
     },
 
     refreshList() {
@@ -158,27 +173,28 @@ export default {
       this.currentReferral = tutorial;
       this.currentIndex = tutorial ? index : -1;
     },
-
-    removeAllReferrals() {
-      DataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    searchReferral() {
-      DataService.findByTitle(this.userData)
-        .then((response) => {
-          this.referrals = response.data;
-          this.setActiveReferral(null);
-          console.log("SEARCH TITLE RESPONSE DATA:::  ", response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    // searchReferral() {
+    //   DataService.findByTitle(this.currentReferral.yourname)
+    //     .then((response) => {
+    //       this.referrals = response.data;
+    //       this.setActiveReferral(null);
+    //       console.log("SEARCH TITLE RESPONSE DATA:::  ", response.data);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
+    async searchReferral() {
+      console.log("GET referral by yourname ", this.yourname);
+      this.url = "/api/referrals/" + this.yourname;
+      const referralResults = await fetch(this.url, {
+        method: "GET",
+      });
+      if (referralResults.ok) {
+        const resultData = await referralResults.json();
+        this.referrals = resultData;
+        console.log("SEARCH TITLE RESPONSE DATA:::  ", resultData);
+      }
     },
   },
   mounted() {

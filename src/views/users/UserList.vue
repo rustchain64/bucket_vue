@@ -1,14 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useAgentReferCodeStore } from "@/stores";
-import { useUsersStore } from "@/stores";
 
 const referallCodeStore = useAgentReferCodeStore();
 const { refUsers } = storeToRefs(referallCodeStore);
-
-const usersStore = useUsersStore();
-const { users } = storeToRefs(usersStore);
-usersStore.getAll();
 </script>
 
 <template>
@@ -83,18 +78,29 @@ usersStore.getAll();
 
 <script>
 export default {
-  // data() {
-  //   return {};
-  // },
   name: "add-list",
   data() {
     return {
       id: null,
       length: 0,
       referCode: "test333",
+      users: [],
     };
   },
   methods: {
+    async getUsers() {
+      console.log("GET USERS");
+      const userResults = await fetch("/api/users", {
+        method: "GET",
+      });
+      if (userResults.ok) {
+        const resultData = await userResults.json();
+        console.log("USER RESULT DATA: ", resultData);
+        this.users = resultData;
+      } else {
+        console.log(userResults.statusText);
+      }
+    },
     fetchReferralCodes() {
       let returnCodes = refUsers.agentCodes;
       console.log("User List : ", returnCodes[0]);
@@ -104,6 +110,9 @@ export default {
       console.log("Fetched Code : ", returnCodes[0][codesLength].agentCode);
       this.referCode = returnCodes[0][codesLength].agentCode;
     },
+  },
+  created: function () {
+    this.getUsers();
   },
 };
 </script>
