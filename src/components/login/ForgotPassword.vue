@@ -21,7 +21,7 @@ export default {
   // data() {
   //   return {};
   // },
-  name: "forgot-password",
+  name: "my-forgot-password",
   data() {
     return {
       renew: {

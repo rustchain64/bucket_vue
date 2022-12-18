@@ -13,7 +13,7 @@ console.log("user is: ", user);
        findByTitle()
   -->
   <div id="form_bg">
-    <h4 id="card-header">Referral's List</h4>
+    <h4 id="card-header">Merchant's List</h4>
     <!-- <div class="card-body"> -->
     <!-- <div class="list row"> -->
     <div class="col-md-6">
@@ -36,7 +36,7 @@ console.log("user is: ", user);
       </div>
     </div>
     <div class="col-md-6">
-      <h4><em>Referrals List</em></h4>
+      <h4><em>Merchants List</em></h4>
       <ul class="list-group">
         <li
           class="list-group-item"
@@ -54,7 +54,7 @@ console.log("user is: ", user);
     </div>
     <div class="col-md-6">
       <div v-if="currentReferral">
-        <h4><em>Referral Info</em></h4>
+        <h4><em>Merchant Info</em></h4>
         <div>
           <label><strong>Merchant Name:</strong></label>
           {{ currentReferral.yourname }}
@@ -106,7 +106,7 @@ console.log("user is: ", user);
 
       <div v-else>
         <br />
-        <p>Please click on a Referral...</p>
+        <p>Please click on a Merchant...</p>
       </div>
     </div>
     <!-- </div> -->
@@ -151,8 +151,8 @@ export default {
 
     async retrieveReferrals() {
       // this.referred = false;
-      console.log("GET ALL REFERRAL DATA get referrals ");
-      const referralResults = await fetch("/api/referrals", {
+      console.log("GET ALL REFERRAL DATA get merchants ");
+      const referralResults = await fetch("/api/merchants", {
         method: "GET",
       });
       if (referralResults.ok) {
@@ -185,15 +185,15 @@ export default {
     //     });
     // },
     async searchReferral() {
-      console.log("GET referral by yourname ", this.yourname);
-      this.url = "/api/referrals/" + this.yourname;
+      console.log("GET merchants by yourname ", this.yourname);
+      this.url = "/api/merchants/" + this.yourname;
       const referralResults = await fetch(this.url, {
         method: "GET",
       });
       if (referralResults.ok) {
         const resultData = await referralResults.json();
         this.referrals = resultData;
-        console.log("SEARCH TITLE RESPONSE DATA:::  ", resultData);
+        console.log("SEARCH RESPONSE DATA:::  ", resultData);
       }
     },
   },

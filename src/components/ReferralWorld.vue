@@ -2,23 +2,27 @@
   <div v-if="referred == false" id="form_bg">
     <!-- <div id="form_bg"> -->
     <div class="my-header">
-      <img
-        alt="Pie logo"
-        class="pie-header_logo"
-        src="@/assets/images/pie_logo.png"
-        height="60"
-      />
-      <div v-if="this.userfirstname != null">
-        <span class="dash-row"
-          >Hello {{ this.userfirstname }} Who would you like to refer?
+      <div v-if="this.userfirstname == null">
+        <img
+          alt="Pie logo"
+          class="pie-header_logo"
+          src="@/assets/images/pie_logo.png"
+          height="60"
+        />
+      </div>
+
+      <div v-if="this.userfirstname != null" class="dash-row">
+        <span
+          >Hello <em>{{ this.userfirstname }}</em> make a referral?
         </span>
         <span id="line-space">&nbsp;</span>
         <button @click="merchantDashboard" id="dash-button">Dashboard</button>
       </div>
       <div v-else class="dash-row-default">
-        <div>Who would you like to refer?</div>
+        <div>Refer Someone!</div>
       </div>
     </div>
+
     <form @submit.prevent="updateReferrals">
       <div class="my-row">
         <div class="input-box">
@@ -98,15 +102,9 @@
 
       <div class="center-btns">
         <input type="submit" value="Refer Now" id="submit-style" />
-        <div v-if="this.userfirstname == null">
+        <div v-if="this.userfirstname == null" id="vert-align">
           <span class="or"><em>OR</em></span>
-          <button
-            @click="redirect_to_login"
-            class="btn btn-success"
-            id="login_button"
-          >
-            Login
-          </button>
+          <button @click="redirect_to_login" id="login-button">Login</button>
         </div>
 
         <!-- <div v-if="referralStore.loggedIn == null"> -->
@@ -162,13 +160,12 @@
     />
 
     <div v-if="this.userfirstname != null">
-      <h3>Thanks {{ this.userfirstname }} for your referral</h3>
-      <p>Your agent should call you shortly!</p>
+      <h3>Success!! {{ this.userfirstname }} your merchant</h3>
+      <p>has been created!</p>
     </div>
     <div v-else>
-      <h3>Thanks for your Referral</h3>
-      <h3>We will contact your agent!</h3>
-      <p>You should receive a call shortly!</p>
+      <h3>Success!! {{ this.userfirstname }} your merchant</h3>
+      <p>has been created!</p>
     </div>
 
     <!-- <h4>Thanks {{ user.firstName }}</h4> -->
@@ -183,7 +180,7 @@ import { useAlertStore } from "@/stores/alert.store";
 import { useReferralStore } from "@/stores/refer.store";
 import { useAuthStore } from "@/stores";
 export default {
-  name: "ReferralWorld",
+  name: "my_ReferralWorld",
   props: {
     msg: String,
   },
@@ -329,7 +326,7 @@ export default {
       console.log("response referral data: ", response);
       this._clearReferralForm();
       // set 8 second interval
-      setTimeout(this._fun, 8000);
+      setTimeout(this._fun, 5000);
     },
     _fun() {
       this.referred = false;
@@ -372,11 +369,6 @@ export default {
     } else {
       console.log("else INIT AUTH USER STATE IS: ", useAuthStore().user);
     }
-    // const authStore = useAuthStore();
-    // if (authStore.user) {
-    //   console.log("user id ");
-    //   authStore.logout();
-    // }
   },
 };
 </script>
@@ -426,7 +418,29 @@ button {
 #submit-style {
   color: white;
   background-color: limegreen;
+  border-radius: 20pt;
+  border-right: 1pt solid rgb(1, 54, 25, 0.5);
+  border-bottom: 2pt solid rgb(1, 54, 25, 0.5);
   height: 40px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#login-button {
+  color: white;
+  background-color: limegreen;
+  border-radius: 5pt;
+  border-right: 1pt solid rgb(1, 54, 25, 0.5);
+  border-bottom: 2pt solid rgb(1, 54, 25, 0.5);
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 25px;
+}
+
+#vert-align {
+  margin-top: 1%;
 }
 .input-box {
   width: 100%;
@@ -440,6 +454,10 @@ input[type="text"] {
   margin-right: 2%;
   display: inline-block;
   border: 1px solid #ccc;
+  border-left: none;
+  border-right: 0.5px solid rgb(1, 54, 25, 0.5);
+  border-top: none;
+  border-bottom: 2px solid rgb(1, 54, 25, 0.5);
   border-radius: 4px;
   box-sizing: border-box;
   -webkit-transition: 0.5s;
@@ -469,19 +487,10 @@ input[type="text"] {
   margin-bottom: 2%;
   margin-top: 2%;
 }
-.my-header {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 3vh;
-  width: 100%;
-  height: 70px;
-  background-color: rgba(255, 255, 255, 0.4);
-}
 .pie-header_logo {
   margin-right: 2%;
 }
 .dash-row {
-  justify-content: space-between;
   color: rgb(31, 30, 30);
   font-size: 2em;
   font-weight: 400;
@@ -514,8 +523,8 @@ input[type="text"] {
 }
 
 .thanks {
-  margin: 0 auto;
-  padding: 0 auto;
+  margin-left: -10%;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -523,6 +532,7 @@ input[type="text"] {
   width: 100vw;
   text-align: center;
   background-color: rgb(222, 221, 221);
+  z-index: 10;
 }
 
 .thanks_logo {
@@ -536,13 +546,24 @@ input[type="text"] {
   }
   #form_bg {
     width: 75vw;
-    margin-top: 15vh;
-    margin-left: -0.4vw;
+    /* margin-top: 3vh; */
+    margin-left: -0.1vw;
     margin-right: auto;
     background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 5pt;
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
+  }
+
+  .my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 3vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
   }
 }
 
@@ -552,14 +573,25 @@ input[type="text"] {
   }
 
   #form_bg {
-    width: 75vw;
-    margin-top: 15vh;
+    width: 100vw;
+    height: 100vh;
+    margin-top: 0vh;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(255, 255, 255, 0.4);
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
+  }
+
+  .my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 3vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
   }
 }
 
@@ -574,14 +606,24 @@ input[type="text"] {
   }
 
   #form_bg {
-    width: 75vw;
-    margin-top: 15vh;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100vw;
+    height: 100vh;
+    margin-top: 0vh;
+    margin-left: 0px;
+    margin-right: 1px;
     background-color: rgba(255, 255, 255, 0.4);
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
+  }
+  .my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 2vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
   }
 }
 
@@ -592,22 +634,28 @@ input[type="text"] {
   }
   .input-box {
     width: 98%;
-    margin-top: 1%;
+    margin-top: 0.5%;
   }
 
   #form_bg {
-    width: 75vw;
-    margin-top: 15vh;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100vw;
+    height: 100vh;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
     background-color: rgba(255, 255, 255, 0.4);
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
   }
+  .my-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
+  }
 }
-
-/* form {
-  width: 100%;
-} */
 </style>

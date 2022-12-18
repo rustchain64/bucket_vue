@@ -9,14 +9,22 @@ const { refUsers } = storeToRefs(referallCodeStore);
 <template>
   <div class="main">
     <div class="user-list-header">
-      <h3>Users List</h3>
+      <h2>Users List</h2>
+      <!-- <div>
+        <button
+          @click="fetchReferralCodes"
+          class="btn btn-sm btn-danger"
+          id="fetch-btn"
+        >
+          Fetch User Code
+        </button>
+        {{ referCode }}
+      </div> -->
 
-      <button @click="fetchReferralCodes" class="btn btn-sm btn-danger">
-        Fetch User Code
-      </button>
-      {{ referCode }}
-      <div class="add-user-button">
-        <router-link to="/users/add" class="btn btn-sm">Add User</router-link>
+      <div>
+        <router-link to="/users/add" class="add-user-button"
+          >Add User Link</router-link
+        >
       </div>
     </div>
 
@@ -28,6 +36,9 @@ const { refUsers } = storeToRefs(referallCodeStore);
           <th style="width: 10%">First Name</th>
           <th style="width: 10%">Last Name</th>
           <th style="width: 10%">Username</th>
+          <th style="width: 10%">Password</th>
+          <th style="width: 10%">Edit</th>
+          <th style="width: 10%">Delete</th>
           <th style="width: 5%"></th>
         </tr>
       </thead>
@@ -39,11 +50,12 @@ const { refUsers } = storeToRefs(referallCodeStore);
             <td>{{ user.firstname }}</td>
             <td>{{ user.lastname }}</td>
             <td>{{ user.username }}</td>
+            <td>{{ user.password }}</td>
             <td style="white-space: nowrap">
               <router-link
                 :to="`/users/edit/${user.id}`"
                 class="btn btn-sm btn-primary mr-1"
-                >Edit</router-link
+                >[E]</router-link
               >
               <button
                 @click="usersStore.delete(user.id)"
@@ -54,7 +66,7 @@ const { refUsers } = storeToRefs(referallCodeStore);
                   v-if="user.isDeleting"
                   class="spinner-border spinner-border-sm"
                 ></span>
-                <span v-else>Delete</span>
+                <span v-else>[X]</span>
               </button>
             </td>
           </tr>
@@ -78,7 +90,7 @@ const { refUsers } = storeToRefs(referallCodeStore);
 
 <script>
 export default {
-  name: "add-list",
+  name: "my-add-list",
   data() {
     return {
       id: null,
@@ -119,25 +131,40 @@ export default {
 
 <style scoped>
 .main {
-  width: 60vw;
+  width: 100%;
+  background-color: whitesmoke;
 }
 
 #table-width {
-  width: 60vw;
-}
-.user-label {
-  float: left;
+  width: 95%;
 }
 .user-list-header {
-  width: 60vw;
-  background-color: rgba(181, 173, 173, 0.2);
+  margin-top: 0px;
+  display: flex;
+  justify-content: space-between;
+  height: 5%;
+  width: 100%;
+  background-color: rgba(181, 173, 173, 0.3);
 }
-.add-user-button {
-  float: right;
+
+#fetch-btn {
+  height: 50%;
+  padding-top: 2%;
+  padding-bottom: 2%;
   background: limegreen;
   background: -webkit-linear-gradient(limegreen, rgb(31, 179, 229));
   background: -o-linear-gradient(limegreen, rgb(31, 179, 229));
   background: -moz-linear-gradient(limegreen, rgb(31, 179, 229));
   background: linear-gradient(limegreen, rgb(31, 179, 229));
+}
+.add-user-button {
+  height: 80%;
+  color: white;
+  font-weight: 600;
+  background: limegreen;
+  /* background: -webkit-linear-gradient(limegreen, rgb(31, 179, 229));
+  background: -o-linear-gradient(limegreen, rgb(31, 179, 229));
+  background: -moz-linear-gradient(limegreen, rgb(31, 179, 229));
+  background: linear-gradient(limegreen, rgb(31, 179, 229)); */
 }
 </style>

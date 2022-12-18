@@ -148,7 +148,7 @@ async function onSubmit(values) {
 
 <script>
 export default {
-  name: "add-referral",
+  name: "my-add-referral",
   data() {
     return {
       picked: false,

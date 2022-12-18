@@ -1,9 +1,9 @@
 <script setup>
 import referralCodeGenerator from "referral-code-generator";
 
-import { useAgentReferCodeStore } from "@/stores";
+// import { useAgentReferCodeStore } from "@/stores";
 
-const agentReferStore = useAgentReferCodeStore();
+// const agentReferStore = useAgentReferCodeStore();
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const agentReferStore = useAgentReferCodeStore();
         Commit Code
       </button></span
     >
-    <span>Code: {{ agnetCode }}</span>
+    <span>Code: {{ agentCode }}</span>
     <span
       ><button @click="getAllAgentCode" class="btn btn-warning">
         Get All Codes
@@ -42,7 +42,7 @@ const agentReferStore = useAgentReferCodeStore();
           :key="code.value"
           class="code_list"
         >
-          {{ code.agentCode }}
+          {{ code.agentcode }}
         </li>
       </ul>
     </div>
@@ -50,15 +50,21 @@ const agentReferStore = useAgentReferCodeStore();
 </template>
 
 <script>
-import AgentCodeDataService from "../services/AgentCodeDataService";
+// import AgentCodeDataService from "../services/AgentCodeDataService";
 
 export default {
   name: "tooling-genrateAgentCode",
   data() {
     return {
-      id: null,
+      codeForm: {
+        id: -1,
+        agentCode: "",
+        allAgentCodes: "",
+        numberOfCodes: "",
+      },
+      id: -1,
       title: " NO NO",
-      agnetCode: "",
+      agentCode: "",
       allAgentCodes: "",
       numberOfCodes: 0,
     };
@@ -72,49 +78,38 @@ export default {
       );
       console.log("TOOLING GENERATED CODE,", newRefferalCode);
       this.agentCode = "AG" + newRefferalCode;
-      console.log("TOOLING GENERATED CODE,", this.agentCode);
+      console.log("TOOLING AG + GENERATED CODE,", this.agentCode);
     },
-    commitAgentCode() {
-      var data = {
-        agentCode: this.agentCode,
-      };
-      console.log("SAVE THIS AGENT CODE ", this.agentCode);
-      // call the create function POST with data
-      AgentCodeDataService.create(data)
-        .then((response) => {
-          //this.agentCode.id = response.data.id;
-          console.log("RESPONSE .DATA.id : ", response.data.id);
-          console.log("RESPONSE .DATA.agentCode : ", response.data.agentCode);
-          this.agentCode = response.data.agentCode;
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+
+    async commitAgentCode() {
+      fetch("api/codes", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ agentCode: this.agentCode }),
+      })
+        .then((response) => response.json())
+        .then((response) => console.log(JSON.stringify(response)));
     },
-    getAllAgentCode() {
-      AgentCodeDataService.getAll()
-        .then((response) => {
-          this.allAgentCodes = response.data;
-          console.log("ALL AGENT CODES: ", this.allAgentCodes);
-          this.numberOfCodes = response.data.length;
-          //localStorage.setItem('aentReferralCodes', JSON.stringify(response.data));
-          agentReferStore.putAllReferralCodes(response.data); // change this to get all codes
-          let returnCodes = agentReferStore.agentCodes;
-          console.log("Refer Stroe Codes Return : ", returnCodes[0]);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+
+    async getAllAgentCode() {
+      console.log("GET ALL CODES");
+      const codeResults = await fetch("/api/codes", {
+        method: "GET",
+      });
+      if (codeResults.ok) {
+        const resultData = await codeResults.json();
+        this.allAgentCodes = resultData;
+        console.log("GET ALL CODES resultData ", resultData);
+      } else {
+        console.log(codeResults.statusText);
+      }
     },
-    deleteAll() {
-      AgentCodeDataService.deleteAll()
-        .then((response) => {
-          console.log("DELETE ALL CODES length : ", response.data.length);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    // when assigned we must delete the code
+    deleteOneById() {
+      console.log("DELETE ALL CODES length : ");
     },
   },
 };

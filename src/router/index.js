@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
 import { useAuthStore, useAlertStore } from "../stores";
 import { Home } from "../views/Home.vue";
 import accountRoutes from "./account.routes";
@@ -11,7 +11,9 @@ import ListView from "../views/referrals/ListView.vue";
 import ReferralWorld from "@/components/ReferralWorld.vue";
 
 export const router = createRouter({
-  history: createWebHistory(),
+  // history: createWebHistory(),
+  history: createMemoryHistory(),
+
   linkActiveClass: "active",
   routes: [
     { path: "/", component: Home },
@@ -25,9 +27,25 @@ export const router = createRouter({
     { path: "/merchantDashboard", component: MerchantDashboard },
     { path: "/agentDashboard", component: AgentDashboard },
     // catch all redirect to home page
-    // { path: "/:pathMatch(.*)*", redirect: "/" },
+    // { path: "/:pathMatch(.*)*", redirect: "/index.html" },
   ],
 });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.path != "/pages/login") {
+//     if (auth.isAuthenticated()) {
+//       next();
+//     } else {
+//       if(to.path == "/pages/signup") {
+//         next("/pages/signup");
+//       }else{
+//         next("/pages/login");
+//       }
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 router.beforeEach(async (to) => {
   // clear alert on route change

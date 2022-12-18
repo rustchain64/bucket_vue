@@ -110,7 +110,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "my-UserWorld",
   props: {
     msg: String,
   },
@@ -119,7 +119,6 @@ export default {
       form: {
         id: -1,
         name: "",
-        stock: 0,
       },
       userForm: {
         id: -1,

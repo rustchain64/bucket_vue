@@ -65,7 +65,7 @@ console.log("USER PERSONA: ", user.persona);
 
 <script>
 export default {
-  name: "home",
+  name: "my-home",
   data() {
     return {
       agent: false,

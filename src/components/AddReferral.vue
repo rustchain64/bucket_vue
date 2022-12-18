@@ -227,7 +227,7 @@ function onSubmit() {
 <script>
 import DataService from "../services/DataService";
 export default {
-  name: "add-tutorial",
+  name: "my-add-tutorial",
   data() {
     return {
       tutorial: {

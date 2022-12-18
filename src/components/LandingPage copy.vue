@@ -3,6 +3,7 @@ import PieChart from "./charts/PieChart";
 import LineChart from "./charts/LineChart.vue";
 import UserList from "../views/users/UserList.vue";
 import ReferralsList from "./ReferralsList.vue";
+import MerchantsList from "./MerchantsList.vue";
 import Tooling from "./Tooling.vue";
 import Reporting from "./Reporting.vue";
 </script>
@@ -71,6 +72,7 @@ import Reporting from "./Reporting.vue";
         <div v-else-if="this.view == 'support'">
           <!-- <h2>Referrals Details</h2> -->
           <ReferralsList />
+          <MerchantsList />
         </div>
 
         <div v-else-if="this.view == 'landing'">

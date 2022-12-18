@@ -78,7 +78,7 @@ const schema = Yup.object().shape({
 
 <script>
 export default {
-  name: "UserLogin",
+  name: "my-UserLogin",
   data() {
     return {
       user: "",
@@ -91,7 +91,9 @@ export default {
   methods: {
     async redirect_to_referrals(values) {
       console.log("GET USER by username ", values.username);
-      this.url = "/api/users/" + values.username;
+      console.log("GET USER by password ", values.password);
+      this.url = "/api/users/" + values.username + "," + values.password;
+      console.log(">>> GET USER url ", this.url);
       const referralResults = await fetch(this.url, {
         method: "GET",
       });
@@ -123,52 +125,42 @@ export default {
 </script>
 
 <style scoped>
+Field {
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid rgb(1, 54, 25, 0.5);
+  border-bottom: 2px solid rgb(1, 54, 25, 0.5);
+}
+
 label {
   color: rgb(31, 30, 30);
   font-weight: 700;
 }
-main {
-  width: 100vw;
-  background-color: white;
-}
-#form_bg {
-  width: 75vw;
-  background-color: rgba(255, 255, 255, 1);
-  border-style: solid;
-  border-width: 1px;
-  border-color: whitesmoke;
-}
 
-/*  
-.content {
-    background-color:rgba(255,255,255,.8);
-    border-radius:.25em;
-    box-shadow:0 0 .25em rgba(0,0,0,.25);
-    box-sizing:border-box;
-    left:50%;
-    padding:10vmin;
-    position:fixed;
-    text-align:center;
-    top:50%;
-    transform:translate(-50%, -50%);
-} */
 .login-header {
   display: flex;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.4);
-  padding-left: 3%;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  padding-top: 0%;
 }
-
 .pie-logo {
   margin-right: 5%;
+}
+
+button {
+  color: white;
+  font-size: 2em;
+  font-weight: 600;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .login-text {
   color: rgb(31, 30, 30);
   font-size: 3em;
-  font-weight: 600;
-  padding-top: 3%;
+  font-weight: 400;
+  padding-top: 2%;
   padding-right: 6%;
 }
 .center-btns {
@@ -183,29 +175,93 @@ main {
 #forgot-pwd {
   display: flex;
   justify-content: right;
-  width: 93%;
+  margin-right: 10%;
   color: rgb(31, 30, 30);
   background-color: transparent;
 }
 
 #login-button {
-  width: 85%;
+  width: 80%;
   height: 40pt;
   margin-bottom: 10%;
   border-radius: 20pt;
-  border: 1pt solid #f48ace;
+  border-bottom: 3pt solid #2a55f1;
+  border-right: 1pt solid #2a55f1;
   text-align: center;
-  background: linear-gradient(45deg, #5fbceb 0%, #f48ace 100%);
+  background: linear-gradient(60deg, #5f7deb 0%, #45ed50 100%);
 }
 
-/* Form {
-  width: 100%;
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-top: 1%;
-} */
 #input-width {
   margin-left: 5%;
   width: 90%;
+}
+
+@media only screen and (min-width: 1025px) {
+  .main {
+    width: 75vw;
+    height: 75vh;
+    margin-left: 0px;
+    margin-top: 0px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 5pt;
+    border-style: solid;
+    border-width: 2px;
+    border-color: whitesmoke;
+  }
+
+  #form_bg {
+    width: 100%;
+    height: 100%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    width: 100vw;
+    height: 100vh;
+    margin-left: 0px;
+    margin-top: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4pt;
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+
+  #form_bg {
+    width: 100;
+    height: 100%;
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) and (-webkit-device-pixel-ratio: 2) {
+  .main {
+    width: 100vw;
+    height: 100vh;
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+
+  #form_bg {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+  .main {
+    width: 100vw;
+    height: 100vh;
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+
+  #form_bg {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
 }
 </style>

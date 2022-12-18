@@ -205,7 +205,7 @@ import DataService from "../services/DataService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "referral",
+  name: "my-referral",
   data() {
     return {
       currentReferral: {},

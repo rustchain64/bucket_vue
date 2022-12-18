@@ -1,9 +1,7 @@
 <script setup>
 //import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores";
-
 const authStore = useAuthStore();
-//const { user } = storeToRefs(authStore);
 </script>
 
 <template>
@@ -11,7 +9,6 @@ const authStore = useAuthStore();
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
 
-  <!-- <div v-show="authStore.user" navbar-nav> -->
   <div class="wrapper">
     <div class="nav_wrapper" v-show="authStore.user">
       <!-- <div class="nav_wrapper"> -->
@@ -22,21 +19,21 @@ const authStore = useAuthStore();
         height="80"
       />
       <div class="nav_links">
-        <RouterLink to="/referrals" class="nav-item nav-link" id="nav-text"
+        <!-- <RouterLink to="/referrals" class="nav-item nav-link" id="nav-text"
           >Referrals</RouterLink
-        >
-        <RouterLink to="/users" class="nav-item nav-link" id="nav-text"
+        > -->
+        <!-- <RouterLink to="/users" class="nav-item nav-link" id="nav-text"
           >Users</RouterLink
         >
         <RouterLink to="/list" class="nav-link" id="nav-text"
           >Referrals</RouterLink
-        >
-        <RouterLink to="/referral" class="nav-item nav-link" id="nav-text"
+        > -->
+        <!-- <RouterLink to="/referral" class="nav-item nav-link" id="nav-text"
           >Referral</RouterLink
         >
         <RouterLink to="/add" class="nav-item nav-link" id="nav-text"
           >Add</RouterLink
-        >
+        > -->
         <div>
           <div @click="authStore.logout()">
             <img
@@ -56,33 +53,33 @@ const authStore = useAuthStore();
   </div>
 </template>
 
+<script>
+import { useAgentReferCodeStore } from "@/stores";
+export default {
+  name: "my-add-user",
+  data: () => ({
+    agentCode: "",
+  }),
+  mounted() {
+    useAgentReferCodeStore().getAllAgentCode();
+    // authStore.logout();
+    localStorage.removeItem("user");
+  },
+  created() {
+    localStorage.removeItem("user");
+  },
+};
+</script>
+
 <style scoped>
 @import "@/assets/main.css";
-.nav_wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-}
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 83vw;
-}
-.log_out {
-  background-color: transparent;
-  margin-top: 1%;
-}
 .nav_links {
   display: flex;
-  margin-top: 2%;
 }
 #nav-text {
   color: darkgreen;
   font-weight: 900;
   margin-right: 10%;
-}
-
-.logout_button {
 }
 
 .bg {
@@ -106,19 +103,6 @@ const authStore = useAuthStore();
   animation-duration: 4s;
 }
 
-.content {
-  float: left;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 0.25em;
-  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
-  box-sizing: border-box;
-  padding: 1vmin;
-  /* position: fixed; */
-  text-align: center;
-  top: 1%;
-  /* transform: translate(50%, -40%); */
-}
-
 @keyframes slide {
   0% {
     transform: translateX(-25%);
@@ -126,6 +110,82 @@ const authStore = useAuthStore();
 
   100% {
     transform: translateX(25%);
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+  }
+  .nav_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    place-items: center;
+    width: 100%;
+  }
+  .log_out {
+    background-color: transparent;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+  }
+  .nav_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    place-items: center;
+    width: 98%;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  .log_out {
+    background-color: transparent;
+    margin-right: 12%;
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) and (-webkit-device-pixel-ratio: 2) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+  }
+  .nav_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    place-items: center;
+    width: 98%;
+  }
+  .log_out {
+    background-color: transparent;
+    margin-right: 15%;
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+  }
+  .nav_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    place-items: center;
+    width: 98%;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  .log_out {
+    background-color: transparent;
+    margin-right: 15%;
   }
 }
 </style>

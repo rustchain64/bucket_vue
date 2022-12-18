@@ -14,6 +14,19 @@ export const useAgentReferCodeStore = defineStore({
 
       return this.agentCodes.length;
     },
+    async getAllAgentCode() {
+      console.log("GET ALL CODES on APP MOUNT");
+      const codeResults = await fetch("/api/codes", {
+        method: "GET",
+      });
+      if (codeResults.ok) {
+        const resultData = await codeResults.json();
+        this.agentCodes = resultData;
+        console.log("GET AGENT CODES resultData ", resultData);
+      } else {
+        console.log(codeResults.statusText);
+      }
+    },
     getLength() {
       console.log("get Length,", this.agentCodes.length);
 

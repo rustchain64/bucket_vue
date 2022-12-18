@@ -8,10 +8,13 @@ import LandingPage from "../components/LandingPage.vue";
 </script>
 
 <template>
-  <div>
+  <div class="wrapper">
     <div class="main_header">
-      <h2>Admin {{ useAuthStore().user.firstname }} Dashboard</h2>
-      <div>Admin BUtton</div>
+      <h2>
+        {{ useAuthStore().user.firstname }}
+        {{ useAuthStore().user.lastname }}'s Admin Dashboard
+      </h2>
+      <!-- <div>Admin BUtton</div> -->
     </div>
     <div class="page-width">
       <LandingPage />
@@ -20,13 +23,20 @@ import LandingPage from "../components/LandingPage.vue";
 </template>
 
 <style scoped>
+.wrapper {
+  width: 85vw;
+  margin-left: 2%;
+}
 .main_header {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.6);
   display: flex;
   justify-content: space-between;
+  width: 90%;
+  padding-top: 1%;
+  padding-left: 1%;
 }
 
 .page-width {
-  width: 90vw;
+  width: 90%;
 }
 </style>

@@ -1,9 +1,10 @@
 <script setup>
-import ReferralsList from "../../components/ReferralsList.vue";
+import MerchantWorld from "@/components/MerchantWorld.vue";
+// import ReferralsList from "../../components/ReferralsList.vue";
 </script>
 
 <template>
   <main>
-    <ReferralsList />
+    <MerchantWorld />
   </main>
 </template>
