@@ -41,6 +41,8 @@ a,
     /* justify-content: center; */
     /* align-items: start;
     justify-items: center; */
+
+    /* align-items: center; is what centers items horizontally */
   }
 
   #app {

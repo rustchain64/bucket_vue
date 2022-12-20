@@ -243,11 +243,7 @@
               <button @click="editMerchant(referral)" class="btn" id="ed-del">
                 [E]
               </button>
-              <button
-                @click="removeMerchants(referral)"
-                class="btn"
-                id="ed-del"
-              >
+              <button @click="removeReferral(referral)" class="btn" id="ed-del">
                 [X]
               </button>
             </div>
@@ -335,6 +331,26 @@ export default {
       console.log("MODULUD: ", Math.ceil((index + 1) / 2));
       return "data_" + Math.ceil((index + 1) / 2);
     },
+    async removeReferral(referral) {
+      console.log("DELETE REFERRAL ", referral);
+      await fetch(`/api/referrals/${referral.id}`, {
+        method: "DELETE",
+      })
+        .then(this._delete_referralSuccess)
+        .catch(this._delete_referralError);
+    },
+    _delete_referralSuccess(response) {
+      console.log("response merchant data: ", response);
+      this._clearReferralForm();
+      this._refreshReferralData();
+    },
+    _delete_referralError(response) {
+      console.log("COULDN'T fetch referral data _error: ", response);
+      // alert(
+      //   response.data ? JSON.stringify(response.data) : response.statusText
+      // );
+    },
+
     redirect_to_login() {
       console.log("COMMIT FORM VALUES TO STORE v-model : ", this.data);
       //force a login in order to Submit Referral
@@ -734,7 +750,7 @@ input[type="number"] {
     background-color: rgba(255, 255, 255, 0.4);
   }
 }
-
+/* this os for iphone */
 @media only screen and (min-width: 375px) and (max-width: 767px) and (-webkit-device-pixel-ratio: 2) {
   #from-ref-list {
     color: rgb(2, 87, 15);
@@ -752,27 +768,35 @@ input[type="number"] {
     flex-direction: column;
   }
   .my-span-first {
+    color: green;
     display: flex;
+    background-color: yellowgreen;
   }
 
   .my-span-second {
+    color: red;
     display: flex;
-    background-color: yellow;
+    background-color: rgba(255, 255, 0, 0.728);
   }
 
   .my-span-second-lower {
+    color: white;
     display: none;
+    background-color: rgb(16, 16, 70);
   }
 
   .my-span-first-data-upper {
+    color: brown;
     display: flex;
     background-color: orange;
   }
   .my-span-first-data-lower {
+    color: brown;
     display: none;
     background-color: orange;
   }
   .my-span-second-data {
+    color: yellow;
     display: flex;
     background-color: blue;
   }
@@ -820,15 +844,16 @@ input[type="number"] {
   .my-row {
     display: flex;
     flex-direction: column;
+    color: rgb(2, 87, 15);
+    font-size: 1.2em;
+    font-weight: 600;
   }
   .my-span-first {
     display: flex;
-    background-color: red 0.5;
   }
 
   .my-span-second {
     display: flex;
-    background-color: yellow, 0.5;
   }
 
   .my-span-second-lower {
@@ -837,15 +862,12 @@ input[type="number"] {
 
   .my-span-first-data-upper {
     display: flex;
-    background-color: orange 0.5;
   }
   .my-span-first-data-lower {
     display: none;
-    background-color: orange 0.5;
   }
   .my-span-second-data {
     display: flex;
-    background-color: blue 0.5;
   }
   .horiz-span {
     display: flex;
@@ -869,7 +891,7 @@ input[type="number"] {
     padding-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    background-color: rgba(255, 255, 255, 0.4);
+    /* background-color: rgba(255, 255, 255, 0.4); */
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;

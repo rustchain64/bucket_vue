@@ -1,12 +1,8 @@
 <template>
-  <!-- <h2>Plugin Example</h2>
-  <p>
-    This example demonstrates usage of both local and global plugins, zoom being
-    global and data labels being local.
-  </p> -->
   <div
     style="
-      width: 30vw;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       margin-bottom: 5%;
@@ -47,7 +43,7 @@ export default {
         datasets: [
           {
             label: "Pending",
-            data: [15, 59, 80, 81, 66, 70, 85],
+            data: [15, 59, 78, 81, 66, 70, 85],
             fill: false,
             borderColor: "#41B883",
             backgroundColor: "limegreen",
@@ -58,7 +54,7 @@ export default {
             fill: false,
             borderColor: "#333",
             tension: 0.5,
-            backgroundColor: "black",
+            backgroundColor: "darkblue",
           },
         ],
       },
@@ -79,13 +75,13 @@ export default {
             backgroundColor: function (context) {
               return context.dataset.backgroundColor;
             },
-            borderRadius: 4,
+            borderRadius: 3,
             color: "white",
             font: {
               weight: "bold",
             },
             formatter: Math.round,
-            padding: 6,
+            padding: 5,
           },
         },
       },

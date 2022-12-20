@@ -180,12 +180,12 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     place-items: center;
-    width: 98%;
+    width: 99%;
     background-color: rgba(255, 255, 255, 0.7);
   }
   .log_out {
     background-color: transparent;
-    margin-right: 15%;
+    right: 8%;
   }
 }
 </style>
