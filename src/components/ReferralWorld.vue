@@ -1,8 +1,28 @@
+<!-- eslint-disable prettier/prettier -->
+<script setup>
+import { router } from "@/router";
+import { useAlertStore } from "@/stores/alert.store";
+import { useReferralStore } from "@/stores/refer.store";
+import { useAuthStore } from "@/stores";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
+  yourname: Yup.string().required("Persona is required"),
+  referralname: Yup.string().required("Agent Code is required"),
+  agentname: Yup.string().required("First Name is required"),
+  agentcode: Yup.string().required("Last Name is required"),
+  businessname: Yup.string().required("Username is required"),
+  phone: Yup.string().required("Username is required"),
+  title: Yup.string().required("Username is required"),
+  description: Yup.string().required("Username is required"),
+});
+</script>
+
 <template>
   <div v-if="referred == false" id="form_bg">
-    <!-- <div id="form_bg"> -->
     <div class="my-header">
-      <div v-if="this.userfirstname == null">
+      <div v-if="userfirstname == null">
         <img
           alt="Pie logo"
           class="pie-header_logo"
@@ -11,9 +31,9 @@
         />
       </div>
 
-      <div v-if="this.userfirstname != null" class="dash-row">
+      <div v-if="userfirstname != null" class="dash-row">
         <span
-          >Hello <em>{{ this.userfirstname }}</em> make a referral?
+          >Hello <em>{{ userfirstname }}</em> make a referral?
         </span>
         <span id="line-space">&nbsp;</span>
         <button @click="merchantDashboard" id="dash-button">Dashboard</button>
@@ -23,134 +43,153 @@
       </div>
     </div>
 
-    <form @submit.prevent="updateReferrals">
-      <div class="my-row">
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.yourname"
-            placeholder="Your Name"
-            ref="yourname"
-          />
-        </div>
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.referralname"
-            placeholder="Your Referral's Name"
-            ref="referralname"
-          />
-        </div>
-      </div>
-
-      <div class="my-row">
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.agentname"
-            placeholder="Your Agent's Name"
-            ref="agentname"
-          />
-        </div>
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.refagentcode"
-            placeholder="Agent's Code"
-            ref="refagentcode"
-          />
-        </div>
-      </div>
-
-      <div class="my-row">
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.businessname"
-            placeholder="Referral's Business Name"
-            ref="businessname"
-          />
-        </div>
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.phone"
-            placeholder="Referral's Phone"
-            ref="phone"
-          />
-        </div>
-      </div>
-
-      <div class="my-row">
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.title"
-            placeholder="Notes"
-            ref="title"
-          />
-        </div>
-        <div class="input-box">
-          <input
-            type="text"
-            v-model="referForm.description"
-            placeholder="Description"
-            ref="description"
-          />
-        </div>
-      </div>
-
-      <div class="center-btns">
-        <input type="submit" value="Refer Now" id="submit-style" />
-        <div v-if="this.userfirstname == null" id="vert-align">
-          <span class="or"><em>OR</em></span>
-          <button @click="redirect_to_login" id="login-button">Login</button>
-        </div>
-
-        <!-- <div v-if="referralStore.loggedIn == null"> -->
-      </div>
-    </form>
-
-    <div v-if="this.test == 'true'">
-      <div class="row"><h3>Referrals List</h3></div>
-      <!-- <div>{{ referrals }}</div> -->
-
-      <div class="row">
-        <div class="col-1" id="list-header">Your Name</div>
-        <div class="col-1" id="list-header">Referral Name</div>
-        <div class="col-1" id="list-header">Agent Name</div>
-        <div class="col-1" id="list-header">Agent Code</div>
-        <div class="col-1" id="list-header">Business Name</div>
-        <div class="col-1" id="list-header">Phone</div>
-        <div class="col-2" id="list-header">Notes</div>
-        <div class="col-2" id="list-header">Description</div>
-      </div>
-
-      <div
-        class="row"
-        v-for="referral in referrals"
-        v-bind:key="referral.yourname"
+    <template v-if="!(user?.loading || user?.error)">
+      <Form
+        @submit="updateUser"
+        :validation-schema="schema"
+        v-slot="{ errors, isSubmitting }"
       >
-        <div class="col-1">{{ referral.yourname }}</div>
-        <div class="col-1">{{ referral.referralname }}</div>
-        <div class="col-1">{{ referral.agentname }}</div>
-        <div class="col-1">{{ referral.agentcode }}</div>
-        <div class="col-1">{{ referral.businessname }}</div>
-        <div class="col-1">{{ referral.phone }}</div>
-        <div class="col-2">{{ referral.title }}</div>
-        <div class="col-2">{{ referral.description }}</div>
+        <div class="my-row">
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Your Name</label>
+            <Field
+              name="yourname"
+              type="text"
+              v-model="user.yourname"
+              class="form-control"
+              :class="{ 'is-invalid': errors.yourname }"
+            />
+            <div class="invalid-feedback">{{ errors.yourname }}</div>
+          </div>
 
-        <div class="col-1">
-          <a @click="editReferral(referral)" class="btn" id="line_btn_ed"
-            >[E]</a
-          >
-          <a @click="removeReferral(referral)" class="btn" id="line_btn_x"
-            >[X]</a
-          >
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Referral's Name</label>
+            <Field
+              name="referralname"
+              type="text"
+              v-model="user.referralname"
+              value="referralname"
+              class="form-control"
+              :class="{ 'is-invalid': errors.referralname }"
+            />
+            <div class="invalid-feedback">{{ errors.referralname }}</div>
+          </div>
         </div>
+
+        <div class="my-row">
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Agent's Name</label>
+            <Field
+              name="agentname"
+              type="text"
+              v-model="user.agentname"
+              class="form-control"
+              :class="{ 'is-invalid': errors.agentname }"
+            />
+            <div class="invalid-feedback">{{ errors.agentname }}</div>
+          </div>
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Agent's Code</label>
+            <Field
+              name="agentcode"
+              type="text"
+              v-model="user.agentcode"
+              class="form-control"
+              :class="{ 'is-invalid': errors.agentcode }"
+            />
+            <div class="invalid-feedback">{{ errors.agentcode }}</div>
+          </div>
+        </div>
+
+        <div class="my-row">
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Business Name</label>
+            <Field
+              name="businessname"
+              type="text"
+              v-model="user.businessname"
+              class="form-control"
+              :class="{ 'is-invalid': errors.businessname }"
+            />
+            <div class="invalid-feedback">{{ errors.businessname }}</div>
+          </div>
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Phone</label>
+            <Field
+              name="phone"
+              type="text"
+              v-model="user.phone"
+              class="form-control"
+              :class="{ 'is-invalid': errors.phone }"
+            />
+            <div class="invalid-feedback">{{ errors.phone }}</div>
+          </div>
+        </div>
+
+        <div class="my-row">
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Notes</label>
+            <Field
+              name="title"
+              type="text"
+              v-model="user.title"
+              class="form-control"
+              :class="{ 'is-invalid': errors.title }"
+            />
+            <div class="invalid-feedback">{{ errors.title }}</div>
+          </div>
+          <div class="form-group" id="input-width">
+            <label id="enhance-text">Description</label>
+            <Field
+              name="description"
+              type="text"
+              v-model="user.description"
+              class="form-control"
+              :class="{ 'is-invalid': errors.description }"
+            />
+            <div class="invalid-feedback">{{ errors.description }}</div>
+          </div>
+        </div>
+
+        <div class="center-btns">
+          <button
+            class="btn btn-primary"
+            :disabled="isSubmitting"
+            id="submit-style"
+          >
+            <span
+              v-show="isSubmitting"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Refer Now
+          </button>
+          <div v-if="userfirstname == null" id="vert-align">
+            <span class="or"><em>OR</em></span>
+            <button @click="redirect_to_login" id="login-button">Login</button>
+          </div>
+          <!-- <router-link to="/users" class="btn btn-link">Cancel</router-link> -->
+        </div>
+
+        <!-- <div class="center-btns">
+          <div v-if="userfirstname == null" id="vert-align">
+            <span class="or"><em>OR</em></span>
+            <button @click="redirect_to_login" id="login-button">Login</button>
+          </div>
+        </div> -->
+      </Form>
+    </template>
+    <template v-if="user?.loading">
+      <div class="text-center m-5">
+        <span class="spinner-border spinner-border-lg align-center"></span>
       </div>
-    </div>
+    </template>
+    <template v-if="user?.error">
+      <div class="text-center m-5">
+        <div class="text-danger">Error loading user: {{ user.error }}</div>
+      </div>
+    </template>
   </div>
+
   <div v-if="referred == true" class="thanks">
     <!-- <div class="thanks"> -->
     <img
@@ -159,12 +198,12 @@
       src="@/assets/images/pie_logo.png"
     />
 
-    <div v-if="this.userfirstname != null">
-      <h3>Success!! {{ this.userfirstname }} your merchant</h3>
+    <div v-if="userfirstname != null">
+      <h3>Success!! {{ userfirstname }} your merchant</h3>
       <p>has been created!</p>
     </div>
     <div v-else>
-      <h3>Success!! {{ this.userfirstname }} your merchant</h3>
+      <h3>Success!! {{ userfirstname }} your merchant</h3>
       <p>has been created!</p>
     </div>
 
@@ -175,51 +214,26 @@
 </template>
 
 <script>
-import { router } from "@/router";
-import { useAlertStore } from "@/stores/alert.store";
-import { useReferralStore } from "@/stores/refer.store";
-import { useAuthStore } from "@/stores";
 export default {
-  name: "my_ReferralWorld",
-  props: {
-    msg: String,
-  },
-  data() {
-    return {
-      form: {
-        id: -1,
-        name: "",
-        stock: 0,
-      },
-      referForm: {
-        id: -1,
-        yourname: "",
-        referralname: "",
-        agentname: "",
-        refagentcode: "",
-        businessname: "",
-        phone: "",
-        email: "",
-        ss: "",
-        bankname: "",
-        routingnumber: "",
-        accountnumber: "",
-        title: "",
-        description: "",
-        published: "",
-      },
-      referred: false,
-      referrals: [],
-      fruits: [],
-      method: "",
-      url: "",
-      data: {},
-      fruit: "",
-      referral: "",
-      test: "false",
-      userfirstname: null,
-    };
-  },
+  name: "my-add-user",
+  data: () => ({
+    length: 0,
+    referCode: "",
+    agentcode: "",
+    user: {
+      id: -1,
+      yourname: "",
+      referralname: "",
+      agentname: "James Bond",
+      agentcode: "AGU0W5",
+      businessname: "",
+      phone: "",
+      title: "",
+      description: "",
+    },
+    referred: false,
+    userfirstname: null,
+  }),
   methods: {
     redirect_to_login() {
       console.log("COMMIT FORM VALUES TO STORE v-model : ", this.data);
@@ -233,134 +247,73 @@ export default {
       // commit form data
       useReferralStore().register(this.data);
     },
-    // ################## REFERRAL SECTION ############################# \\
-    async _refreshReferralData() {
-      // this.referred = false;
-      console.log("GET ALL REFERRAL DATA get referrals ");
-      const referralResults = await fetch("/api/referrals", {
-        method: "GET",
-      });
-      if (referralResults.ok) {
-        const resultData = await referralResults.json();
-        this.referrals = resultData;
-      } else {
-        console.log(referralResults.statusText);
-      }
-    },
-    editReferral(referral) {
-      console.log("edit referral ", referral.id);
-      this.referForm.id = referral.id;
-      this.referForm.yourname = referral.yourname;
-      this.referForm.referralname = referral.referralname;
-      this.referForm.agentname = referral.agentname;
-      this.referForm.refagentcode = referral.agentcode;
-      this.referForm.businessname = referral.businessname;
-      this.referForm.phone = referral.phone;
-      this.referForm.title = referral.title;
-      this.referForm.description = referral.description;
-      console.log("EDIT REFERRAL this.userForm.id >>> ", this.referForm.id);
-    },
-    async removeReferral(referral) {
-      console.log("DELETE REFERRAL ", referral);
-      await fetch(`/api/referrals/${referral.id}`, {
-        method: "DELETE",
-      })
-        .then(this._referralSuccess)
-        .catch(this._referralError);
-    },
-    async updateReferrals() {
+    async updateUser() {
       this.referred = true;
-      console.log("<< SAVE A REFERRAL referred is : true? >>", this.referred);
-      this.referForm.yourname = this.$refs.yourname.value;
-      this.referForm.referralname = this.$refs.referralname.value;
-      this.referForm.agentname = this.$refs.agentname.value;
-      this.referForm.refagentcode = this.$refs.refagentcode.value;
-      this.referForm.businessname = this.$refs.businessname.value;
-      this.referForm.phone = this.$refs.phone.value;
-      this.referForm.title = this.$refs.title.value;
-      this.referForm.description = this.$refs.description.value;
-      console.log("REFERRAL ID ", this.referForm.id);
-      if (this.referForm.id == -1) {
-        console.log(
-          "updateReferrals CREATE REFERRAL by POST ",
-          this.referForm.id
-        );
+      console.log("user ID ", this.user.id);
+      if (this.user.id == -1) {
+        console.log("CREATE user by POST ", this.user.id);
         this.method = "POST";
         this.url = "/api/referrals";
-        this.data.yourname = this.referForm.yourname;
-        this.data.referralname = this.referForm.referralname;
-        this.data.agentname = this.referForm.agentname;
-        this.data.agentcode = this.referForm.refagentcode;
-        this.data.businessname = this.referForm.businessname;
-        this.data.phone = this.referForm.phone;
-        this.data.title = this.referForm.title;
-        this.data.description = this.referForm.description;
-        console.log("REFERRAL POST url: ", this.url);
-        console.log("REFERRAL.DATA POST TO FETCH", this.data);
+        await fetch(this.url, {
+          method: this.method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.user),
+        })
+          .then(this._referralSuccess)
+          .catch(this._referralError);
+        console.log("USER.DATA POST", this.user);
       } else {
-        console.log("updateReferrals UPDATE REFERRAL by PUT");
+        console.log("UPDATE USER by PUT");
         this.method = "PUT";
-        this.url = "/api/referrals/" + this.referForm.id;
-        this.data.yourname = this.referForm.yourname;
-        this.data.referralname = this.referForm.referralname;
-        this.data.agentname = this.referForm.agentname;
-        this.data.agentcode = this.referForm.refagentcode;
-        this.data.businessname = this.referForm.businessname;
-        this.data.phone = this.referForm.phone;
-        this.data.title = this.referForm.title;
-        this.data.description = this.referForm.description;
-        console.log("REFERRAL.UPDATE > PUT TO FETCH", this.data);
+        this.url = "/api/referrals/" + this.user.id;
+        await fetch(this.url, {
+          method: this.method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.user),
+        })
+          .then(this._referralSuccess)
+          .catch(this._referralError);
       }
-
-      await fetch(this.url, {
-        method: this.method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.data),
-      })
-        .then(this._referralSuccess)
-        .catch(this._referralError);
     },
     _referralSuccess(response) {
-      console.log("response referral data: ", response);
+      console.log("response referrals data: ", response);
       this._clearReferralForm();
-      // set 8 second interval
-      setTimeout(this._fun, 5000);
+      setTimeout(this._fun, 3000);
     },
     _fun() {
       this.referred = false;
-      this._refreshReferralData();
+      // this._refreshReferralData();
     },
     _referralError(response) {
-      console.log("COULDN'T fetch referral data _error");
-      alert(
-        response.data ? JSON.stringify(response.data) : response.statusText
-      );
-    },
-    _clearReferralForm() {
-      this.referForm.yourname = "";
-      this.referForm.referralname = "";
-      this.referForm.agentname = "";
-      this.referForm.refagentcode = "";
-      this.referForm.businessname = "";
-      this.referForm.phone = "";
-      this.referForm.title = "";
-      this.referForm.description = "";
-      this.referForm.id = -1;
+      console.log("COULDN'T fetch referrals data _error,", response);
+      // alert(response.data ? JSON.stringify(response.data) : response.statusText);
     },
     newReferral() {
       this.referred = false;
       this._clearReferralForm();
+    },
+    _clearReferralForm() {
+      this.user.yourname = "";
+      this.user.referralname = "";
+      this.user.agentname = "James Bond";
+      this.user.refagentcode = "AGU0W5";
+      this.user.businessname = "";
+      this.user.phone = "";
+      this.user.title = "";
+      this.user.description = "";
+      this.user.id = -1;
     },
     merchantDashboard() {
       console.log("dashboard Merchant");
       router.push("/merchantDashboard");
     },
   },
-
   mounted: function () {
-    this._refreshReferralData();
+    //this._refreshReferralData();
 
     console.log("is there a AUTHENTICATE user? ", useAuthStore().user);
     if (useAuthStore().user) {
@@ -373,47 +326,8 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "@/assets/base.css";
 @import "@/assets/main.css";
-body {
-  margin: 0px;
-  padding: 0px;
-}
-h3 {
-  margin: 4px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
-button {
-  color: white;
-  background-color: limegreen;
-}
-
-#line_btn_ed {
-  padding: 1px, 1px, 1px, 1px;
-  color: white;
-  font: bolder;
-  background-color: rgb(14, 168, 251);
-}
-
-#line_btn_x {
-  padding: 1px, 1px, 1px, 1px;
-  color: white;
-  font: bolder;
-  background-color: red;
-}
 
 #submit-style {
   color: white;
@@ -424,6 +338,16 @@ button {
   height: 40px;
   padding-left: 5%;
   padding-right: 5%;
+}
+
+#vert-align {
+  vertical-align: baseline;
+  padding-top: 7px;
+}
+.or {
+  font-size: medium;
+  font-weight: bolder;
+  margin-top: 16px;
 }
 
 #login-button {
@@ -439,46 +363,29 @@ button {
   height: 25px;
 }
 
-#vert-align {
-  margin-top: 1%;
+#enhance-text {
+  font-weight: bold;
+  margin-right: 2%;
 }
-.input-box {
-  width: 100%;
-  margin-top: 2%;
+.persona_label {
+  margin-right: 3%;
+  margin-left: 1%;
 }
 
-input[type="text"] {
-  width: 96%;
-  padding: 2%px 5%px;
-  margin-left: 2%;
-  margin-right: 2%;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-left: none;
-  border-right: 0.5px solid rgb(1, 54, 25, 0.5);
-  border-top: none;
-  border-bottom: 2px solid rgb(1, 54, 25, 0.5);
-  border-radius: 4px;
-  box-sizing: border-box;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  outline: 0;
-  font-family: "Open Sans", serif;
-}
 .my-row {
   display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
-/* #form_bg {
-  width: 75vw;
-  margin-top: 15vh;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-style: solid;
-  border-width: 1px;
-  border-color: whitesmoke;
-} */
+#form-group {
+  width: 80%;
+}
+
+.my-form-control {
+  width: 70%;
+}
+
 .center-btns {
   display: flex;
   flex-direction: row;
@@ -494,11 +401,7 @@ input[type="text"] {
   color: rgb(31, 30, 30);
   font-size: 2em;
   font-weight: 400;
-  margin-top: 4vh;
-}
-
-#line-space {
-  width: 20%;
+  margin-top: 1vh;
 }
 .dash-row-default {
   color: rgb(31, 30, 30);
@@ -516,12 +419,6 @@ input[type="text"] {
   background-color: white;
 }
 
-.or {
-  font-size: medium;
-  font-weight: bolder;
-  margin-top: 16px;
-}
-
 .thanks {
   margin-left: -10%;
   margin-top: 0px;
@@ -529,7 +426,7 @@ input[type="text"] {
   flex-direction: column;
   justify-content: center;
   height: 100vh;
-  width: 100vw;
+  width: 105vw;
   text-align: center;
   background-color: rgb(222, 221, 221);
   z-index: 10;
@@ -539,23 +436,42 @@ input[type="text"] {
   width: 50vw;
   margin: 0 auto;
 }
-
 @media only screen and (min-width: 1025px) {
-  .input-box {
-    width: 98%;
-  }
-  #form_bg {
-    width: 75vw;
-    /* margin-top: 3vh; */
-    margin-left: -0.1vw;
-    margin-right: auto;
+  .my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 3vh;
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.4);
+  }
+  .form_bg {
+    width: 75vw;
+    margin-top: 10vh;
+    margin-right: auto;
+    padding: 1%;
     border-radius: 5pt;
+    background-color: rgba(255, 255, 255, 0.4);
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
   }
 
+  #fetch-btn {
+    color: white;
+    background-color: red;
+    margin-left: 25%;
+    height: 75%;
+  }
+
+  #input-width {
+    margin-left: 2%;
+    width: 47%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
   .my-header {
     display: flex;
     flex-direction: row;
@@ -565,89 +481,33 @@ input[type="text"] {
     background-color: rgba(255, 255, 255, 0.4);
     border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
   }
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
-  .input-box {
-    width: 98%;
-  }
-
-  #form_bg {
-    width: 100vw;
-    height: 100vh;
-    margin-top: 0vh;
+  .form_bg {
+    width: 80vw;
+    margin-top: 8vh;
     margin-left: auto;
     margin-right: auto;
+    padding: 1%;
+    border-radius: 5pt;
     background-color: rgba(255, 255, 255, 0.4);
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
   }
 
-  .my-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 3vh;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
+  #fetch-btn {
+    color: white;
+    background-color: red;
+    margin-left: 25%;
+    height: 75%;
+  }
+
+  #input-width {
+    margin-left: 2%;
+    width: 46%;
   }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-  .my-row {
-    display: flex;
-    flex-direction: column;
-  }
-  .input-box {
-    width: 98%;
-    margin-top: 2%;
-  }
-
-  #form_bg {
-    width: 100vw;
-    height: 100vh;
-    margin-top: 0vh;
-    margin-left: 0px;
-    margin-right: 1px;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-style: solid;
-    border-width: 1px;
-    border-color: whitesmoke;
-  }
-  .my-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 2vh;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
-  }
-}
-
-@media only screen and (min-width: 380px) and (max-width: 480px) {
-  .my-row {
-    display: flex;
-    flex-direction: column;
-  }
-  .input-box {
-    width: 98%;
-    margin-top: 0.5%;
-  }
-
-  #form_bg {
-    width: 100vw;
-    height: 100vh;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-style: solid;
-    border-width: 1px;
-    border-color: whitesmoke;
-  }
+@media only screen and (min-width: 375px) and (max-width: 767px) and (-webkit-device-pixel-ratio: 2) {
   .my-header {
     display: flex;
     flex-direction: column;
@@ -656,6 +516,74 @@ input[type="text"] {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.4);
     border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
+  }
+  .my-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .form_bg {
+    margin-top: 0px;
+    margin-left: 4%;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+
+  #fetch-btn {
+    color: white;
+    background-color: red;
+    height: 30%;
+    width: 90%;
+  }
+
+  #input-width {
+    margin-left: 2%;
+    width: 92%;
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+  .my-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1pt solid rgb(1, 54, 25, 0.5);
+  }
+  .my-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .form_bg {
+    margin-top: 0px;
+    margin-left: 4%;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
+  }
+
+  #fetch-btn {
+    color: white;
+    background-color: red;
+    height: 30%;
+    width: 90%;
+  }
+
+  #input-width {
+    margin-left: 2%;
+    width: 92%;
   }
 }
 </style>

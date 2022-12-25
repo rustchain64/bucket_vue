@@ -15,21 +15,22 @@ const { user } = storeToRefs(authStore);
       <div class="switch-header">
         <button @click="tableChart(true)" class="charts-btn">Charts</button>
         <button @click="tableChart(false)" class="table-btn">Table</button>
+        <button @click="merchantForm()" class="table-btn">Form</button>
       </div>
       <div class="chart-wrapper" v-if="chart == true">
         <div class="pie-chart-wrapper">
-          <div class="chart-text">Referrals by Status</div>
+          <div class="chart-text">Merchants by Status</div>
           <PieChart />
         </div>
         <div class="line-chart-wrapper">
-          <div class="chart-text">Referrals Rewards</div>
+          <div class="chart-text">Merchants Rewards</div>
           <LineChart />
         </div>
       </div>
 
       <div style="overflow-x: auto" class="table-wrapper" v-if="chart == false">
         <table>
-          <div class="chart-text">Referrals Details</div>
+          <div class="chart-text">Merchants Details</div>
           <tr>
             <th>Merchant Name</th>
             <th>Agent Name</th>
@@ -67,6 +68,7 @@ const { user } = storeToRefs(authStore);
 </template>
 
 <script>
+import { router } from "@/router";
 export default {
   name: "my-agent-dash",
   data: () => ({
@@ -76,6 +78,10 @@ export default {
     tableChart(value) {
       this.chart = value;
       console.log("Chart state: ", this.chart);
+    },
+    merchantForm() {
+      console.log("dashboard Agent");
+      router.push("/agentDashboard");
     },
   },
   created() {

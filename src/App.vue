@@ -141,12 +141,12 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     place-items: center;
-    width: 98%;
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.7);
   }
   .log_out {
     background-color: transparent;
-    margin-right: 12%;
+    margin-right: 25%;
   }
 }
 
@@ -165,7 +165,7 @@ export default {
   }
   .log_out {
     background-color: transparent;
-    margin-right: 15%;
+    margin-right: 18%;
   }
 }
 
@@ -185,7 +185,7 @@ export default {
   }
   .log_out {
     background-color: transparent;
-    right: 8%;
+    right: 15%;
   }
 }
 </style>

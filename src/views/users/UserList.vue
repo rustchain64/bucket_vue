@@ -1,15 +1,16 @@
 <script setup>
-import { storeToRefs } from "pinia";
-import { useAgentReferCodeStore } from "@/stores";
+// import { storeToRefs } from "pinia";
+// import { useAgentReferCodeStore } from "@/stores";
 
-const referallCodeStore = useAgentReferCodeStore();
-const { refUsers } = storeToRefs(referallCodeStore);
+// const referallCodeStore = useAgentReferCodeStore();
+// const { refUsers } = storeToRefs(referallCodeStore);
 </script>
 
 <template>
   <div class="main">
+    <h4>REF USERS LIST</h4>
     <div class="user-list-header">
-      <h2>Users List</h2>
+      <h4>Users List</h4>
       <!-- <div>
         <button
           @click="fetchReferralCodes"
@@ -58,7 +59,7 @@ const { refUsers } = storeToRefs(referallCodeStore);
                 >[E]</router-link
               >
               <button
-                @click="usersStore.delete(user.id)"
+                @click="deleteUser(user.id)"
                 class="btn btn-sm btn-danger btn-delete-user"
                 :disabled="user.isDeleting"
               >
@@ -113,15 +114,30 @@ export default {
         console.log(userResults.statusText);
       }
     },
-    fetchReferralCodes() {
-      let returnCodes = refUsers.agentCodes;
-      console.log("User List : ", returnCodes[0]);
-      let codesLength = returnCodes[0].length - 1;
-      this.length = codesLength;
-      console.log("Fetched Codes length: ", codesLength);
-      console.log("Fetched Code : ", returnCodes[0][codesLength].agentCode);
-      this.referCode = returnCodes[0][codesLength].agentCode;
+    async deleteUser(user) {
+      console.log("DELETE USER by id ", user);
+      this.url = "/api/users/" + user;
+      const userResults = await fetch(this.url, {
+        method: "DELETE",
+      });
+      if (userResults.ok) {
+        this.getUsers();
+        const resultData = await userResults.json();
+        console.log("USER RESULT DATA: ", resultData);
+        // this.users = resultData;
+      } else {
+        console.log(userResults.statusText);
+      }
     },
+    // fetchReferralCodes() {
+    //   let returnCodes = refUsers.agentCodes;
+    //   console.log("User List : ", returnCodes[0]);
+    //   let codesLength = returnCodes[0].length - 1;
+    //   this.length = codesLength;
+    //   console.log("Fetched Codes length: ", codesLength);
+    //   console.log("Fetched Code : ", returnCodes[0][codesLength].agentCode);
+    //   this.referCode = returnCodes[0][codesLength].agentCode;
+    // },
   },
   created: function () {
     this.getUsers();
