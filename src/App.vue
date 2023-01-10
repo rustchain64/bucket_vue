@@ -19,6 +19,7 @@ const authStore = useAuthStore();
         height="80"
       />
       <div class="nav_links">
+        <div class="greeting-text">Hi {{ authStore.firstname }}</div>
         <!-- <RouterLink to="/referrals" class="nav-item nav-link" id="nav-text"
           >Referrals</RouterLink
         > -->
@@ -59,14 +60,20 @@ export default {
   name: "my-add-user",
   data: () => ({
     agentCode: "",
+    firstname: "",
   }),
   mounted() {
-    useAgentReferCodeStore().getAllAgentCode();
-    // authStore.logout();
     localStorage.removeItem("user");
+    // console.log(">>>>> USER DATA ", this.authStore.user);
+    // console.log(">>>>> USER FIRSTNAME ", this.authStore.user.firstname);
+    // this.firstname = authStore.user.firstname;
+    // useAgentReferCodeStore().getAllAgentCode();
+    // authStore.logout();
+    // localStorage.removeItem("user");
   },
   created() {
     localStorage.removeItem("user");
+    useAgentReferCodeStore().getAllAgentCode();
   },
 };
 </script>
@@ -124,9 +131,17 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     place-items: center;
-    width: 100%;
+  }
+
+  .greeting-text {
+    color: rgb(31, 30, 30);
+    font-size: 1.8em;
+    font-weight: 400;
+    right: 50%;
   }
   .log_out {
+    margin-top: 1%;
+    margin-right: 1%;
     background-color: transparent;
   }
 }
@@ -144,9 +159,16 @@ export default {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.7);
   }
+
+  .greeting-text {
+    color: rgb(31, 30, 30);
+    font-size: 1.8em;
+    font-weight: 400;
+    right: 50%;
+  }
   .log_out {
     background-color: transparent;
-    margin-right: 25%;
+    right: 25%;
   }
 }
 
@@ -161,11 +183,19 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     place-items: center;
-    width: 98%;
+    width: 100vw;
+  }
+
+  .greeting-text {
+    color: rgb(31, 30, 30);
+    font-size: 1.8em;
+    font-weight: 400;
+    right: 35%;
   }
   .log_out {
     background-color: transparent;
-    margin-right: 18%;
+    right: 30%;
+    margin-top: 2%;
   }
 }
 
@@ -180,12 +210,20 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     place-items: center;
-    width: 99%;
+    width: 100vw;
     background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .greeting-text {
+    color: rgb(31, 30, 30);
+    font-size: 1.8em;
+    font-weight: 400;
+    right: 35%;
   }
   .log_out {
     background-color: transparent;
-    right: 15%;
+    margin-top: 2%;
+    right: 30%;
   }
 }
 </style>

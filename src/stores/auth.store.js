@@ -9,6 +9,7 @@ export const useAuthStore = defineStore({
   state: () => ({
     // initialize state from local storage to enable user to stay logged in
     user: JSON.parse(localStorage.getItem("user")),
+    firstname: "",
     returnUrl: null,
   }),
   actions: {
@@ -17,9 +18,12 @@ export const useAuthStore = defineStore({
       // PASS THE INFO INOT AUTH STORE DIRECTLY AS WE NOW HAVE IT
       // update pinia state
       this.user = userData;
+      console.log("from auth.store: userData ", userData.firstname);
+      this.firstname = userData.firstname;
 
       // store user details and jwt in local storage to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(userData.persona));
+      localStorage.setItem("firstname", JSON.stringify(userData));
 
       router.push(this.returnUrl || "/");
       // } catch (error) {

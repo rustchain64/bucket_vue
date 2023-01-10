@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia";
-
+import { router } from "@/router";
 import { useAuthStore } from "@/stores";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart.vue";
@@ -15,7 +15,7 @@ const { user } = storeToRefs(authStore);
       <div class="switch-header">
         <button @click="tableChart(true)" class="charts-btn">Charts</button>
         <button @click="tableChart(false)" class="table-btn">Table</button>
-        <button @click="merchantForm()" class="table-btn">Form</button>
+        <button @click="agentForm()" class="form-btn">Form</button>
       </div>
       <div class="chart-wrapper" v-if="chart == true">
         <div class="pie-chart-wrapper">
@@ -68,7 +68,6 @@ const { user } = storeToRefs(authStore);
 </template>
 
 <script>
-import { router } from "@/router";
 export default {
   name: "my-agent-dash",
   data: () => ({
@@ -79,9 +78,9 @@ export default {
       this.chart = value;
       console.log("Chart state: ", this.chart);
     },
-    merchantForm() {
+    agentForm() {
       console.log("dashboard Agent");
-      router.push("/agentDashboard");
+      router.push("/agent");
     },
   },
   created() {
@@ -128,6 +127,20 @@ export default {
   padding-left: 8px;
   padding-right: 8px;
   height: 80%;
+}
+.form-btn {
+  color: whitesmoke;
+  font-size: 1em;
+  font-weight: 600;
+  background-color: #fb2d22;
+  border-radius: 3pt;
+  border-right: 1pt solid #b50b02;
+  border-bottom: 2pt solid #b50b02;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 75%;
 }
 .table-wrapper {
   margin-top: 1%;

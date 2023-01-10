@@ -6,15 +6,21 @@ import { useAuthStore } from "@/stores";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const ss = "^(?!666|000|9\\d{2})\\d{3}-(?!00)\\d{2}-(?!0{4})\\d{4}$";
 const schema = Yup.object().shape({
-  yourname: Yup.string().required("Persona is required"),
+  yourname: Yup.string().required("Your Name is required"),
   referralname: Yup.string().required("Referral Name is required"),
   agentname: Yup.string().required("Agent Name is required"),
   agentcode: Yup.string().required("Agent Code is required"),
   businessname: Yup.string().required("Business Name is required"),
-  phone: Yup.string().required("Phone is required"),
-  email: Yup.string().required("Email is required"),
-  ss: Yup.string().required("SS is required"),
+  phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  // phone: Yup.number()
+  //   .min(10, "Must be more than 10 characters")
+  //   .required("Phone is requried"),
+  email: Yup.string().email("Not a proper email"),
+  ss: Yup.string().trim().matches(ss, "SS number is not valid"),
   bankname: Yup.string().required("Bankname is required"),
   routingnumber: Yup.string().required("Routing Number is required"),
   accountnumber: Yup.string().required("Account Number is required"),
@@ -26,9 +32,7 @@ const schema = Yup.object().shape({
 
 <template>
   <div v-if="referred == false" id="form_bg">
-    <!-- </div> -->
     <!-- <div class="main"> -->
-    <h1>{{ msg }}</h1>
     <div>
       <div class="my-header">
         <div v-if="userfirstname == null">
@@ -41,32 +45,29 @@ const schema = Yup.object().shape({
         </div>
         <!-- <h2>Make a Referral</h2> -->
         <!-- <h2>Hello -- Create a Merchant</h2> -->
-        <span class="dash-row"
-          >Hello <em>{{ userfirstname }}</em> Create a Merchant
+        <!-- <span class="dash-row"
+          ><em>{{ userfirstname }}</em> Create a Merchant
         </span>
-        <span>
+        <span> -->
+        <div class="dash-row">
+          Create a Merchant
+
           <button
             v-if="list == false"
             @click="referralsList"
             class="agent-referrals-btn"
           >
-            VIEW AGENT REFERRALS
+            LIST
           </button>
           <button
             v-if="list == true"
             @click="referralsForm"
             class="agent-referrals-btn"
           >
-            VIEW MERCHANT FORM
+            FORM
           </button>
-          <button
-            @click="agentDashboard"
-            class="btn btn-success"
-            id="dash-button"
-          >
-            Dashboard
-          </button>
-        </span>
+          <button @click="agentDashboard" class="dash-button">DASH</button>
+        </div>
       </div>
       <div v-if="list == false">
         <Form
@@ -84,7 +85,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.yourname }"
               />
-              <div class="invalid-feedback">{{ errors.yourname }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.yourname }}
+              </div>
             </div>
 
             <div class="form-group" id="input-width">
@@ -97,7 +100,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.referralname }"
               />
-              <div class="invalid-feedback">{{ errors.referralname }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.referralname }}
+              </div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Agent's Name</label>
@@ -108,7 +113,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.agentname }"
               />
-              <div class="invalid-feedback">{{ errors.agentname }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.agentname }}
+              </div>
             </div>
           </div>
 
@@ -122,7 +129,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.agentcode }"
               />
-              <div class="invalid-feedback">{{ errors.agentcode }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.agentcode }}
+              </div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Business Name</label>
@@ -133,7 +142,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.businessname }"
               />
-              <div class="invalid-feedback">{{ errors.businessname }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.businessname }}
+              </div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Phone</label>
@@ -144,7 +155,7 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.phone }"
               />
-              <div class="invalid-feedback">{{ errors.phone }}</div>
+              <div class="invalid-feedback" id="v-red">{{ errors.phone }}</div>
             </div>
           </div>
 
@@ -158,7 +169,7 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.email }"
               />
-              <div class="invalid-feedback">{{ errors.email }}</div>
+              <div class="invalid-feedback" id="v-red">{{ errors.email }}</div>
             </div>
 
             <div class="form-group" id="input-width">
@@ -170,7 +181,7 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.ss }"
               />
-              <div class="invalid-feedback">{{ errors.ss }}</div>
+              <div class="invalid-feedback" id="v-red">{{ errors.ss }}</div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Bank Name</label>
@@ -181,7 +192,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.bankname }"
               />
-              <div class="invalid-feedback">{{ errors.bankname }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.bankname }}
+              </div>
             </div>
           </div>
 
@@ -195,7 +208,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.routingnumber }"
               />
-              <div class="invalid-feedback">{{ errors.routingnumber }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.routingnumber }}
+              </div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Account Number</label>
@@ -206,7 +221,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.accountnumber }"
               />
-              <div class="invalid-feedback">{{ errors.accountnumber }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.accountnumber }}
+              </div>
             </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Title</label>
@@ -217,7 +234,7 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.title }"
               />
-              <div class="invalid-feedback">{{ errors.title }}</div>
+              <div class="invalid-feedback" id="v-red">{{ errors.title }}</div>
             </div>
           </div>
 
@@ -231,7 +248,9 @@ const schema = Yup.object().shape({
                 class="form-control"
                 :class="{ 'is-invalid': errors.description }"
               />
-              <div class="invalid-feedback">{{ errors.description }}</div>
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.description }}
+              </div>
             </div>
             <!-- <button
               class="btn btn-primary"
@@ -593,6 +612,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @import "@/assets/main.css";
+
+#v-red {
+  color: red;
+  font-weight: bolder;
+}
+
 h3 {
   margin: 4px 0 0;
 }
@@ -607,7 +632,7 @@ li {
 a {
   color: #42b983;
 }
-/* 
+/*
 input[type="number"] {
   width: 75%;
   padding: 12px 20px;
@@ -634,10 +659,10 @@ input[type="number"] {
 }
 
 .dash-row {
+  place-items: center;
   color: rgb(31, 30, 30);
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 400;
-  margin-top: 0.5vh;
 }
 
 #line-space {
@@ -647,27 +672,45 @@ input[type="number"] {
   color: rgb(31, 30, 30);
   font-size: 1.5em;
   font-weight: 400;
-  margin-top: 0.5vh;
+  margin-top: 0.1vh;
   margin-left: 1%;
 }
 .agent-referrals-btn {
   color: rgb(31, 30, 30);
-  font-size: 1em;
-  font-weight: 800;
+  font-size: 0.7em;
+  font-weight: 700;
+  height: 60%;
   background-color: whitesmoke;
-  padding-bottom: 5px;
-  margin-left: 10px;
+  border-radius: 2pt;
+  border-right: 1pt solid #1d5038;
+  border-bottom: 2pt solid #1d5038;
+  padding: 5px;
 }
 
-#dash-button {
+.dash-button {
+  color: rgb(31, 30, 30);
+  font-size: 0.7em;
+  font-weight: 700;
+  height: 60%;
+  background-color: whitesmoke;
+  background: url(@/assets/images/dash_button.png) 0px 0px no-repeat;
+  border-radius: 2pt;
+  border-right: 1pt solid #1d5038;
+  border-bottom: 2pt solid #1d5038;
+  padding: 5px;
+}
+
+/* #dash-button {
   color: rgb(31, 30, 30);
   font-weight: 800;
-  height: 70%;
-  width: 120px;
+  width: 70px;
+  margin: 0;
   background: url(@/assets/images/dash_button.png) 3px 5px no-repeat;
   background-color: white;
-  padding-bottom: 5px;
-}
+  border-radius: 2pt;
+  border-right: 1pt solid #1d5038;
+  border-bottom: 2pt solid #1d5038;
+} */
 
 .thanks {
   margin-left: -10%;
@@ -693,10 +736,10 @@ input[type="number"] {
   border-radius: 8pt;
   border-right: 1pt solid rgb(1, 54, 25, 0.5);
   border-bottom: 2pt solid rgb(1, 54, 25, 0.5);
-  height: 80%;
-  padding-left: 5%;
-  padding-right: 5%;
-  margin-top: 30px;
+  height: 75%;
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 29px;
 }
 
 @media only screen and (min-width: 1025px) {
@@ -890,7 +933,6 @@ input[type="number"] {
     padding-bottom: 1%;
     border-bottom: 3px solid rgb(2, 87, 15, 0.8);
   }
-
   .my-row {
     display: flex;
     flex-direction: column;
@@ -911,9 +953,10 @@ input[type="number"] {
   }
   .my-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     background-color: rgba(255, 255, 255, 0.4);
+    height: 7vh;
   }
 }
 
@@ -981,23 +1024,17 @@ input[type="number"] {
 
   #form_bg {
     width: 100vw;
-    height: 100vh;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    /* background-color: rgba(255, 255, 255, 0.4); */
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
+    background-color: rgba(255, 255, 255, 0.4);
   }
   .my-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     background-color: rgba(255, 255, 255, 0.4);
+    height: 7vh;
   }
 }
 </style>

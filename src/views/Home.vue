@@ -52,8 +52,6 @@ console.log("USER PERSONA: ", user.persona);
     <!-- change the form from the same as merchant to the complete form -->
     <!-- <ReferralView />  THis Referral View is actually the update form-->
     <ReferralsList />
-    <!-- <div class="agent_list"><ReferralsList /></div> -->
-    <!-- <div class="agent_register"><ReferralsList /></div> -->
   </div>
   <div v-else>
     <div>HOME PAGE default to AddReferralView => loads REFERRAL WORLD</div>
@@ -84,6 +82,9 @@ export default {
     agentDashboard() {
       console.log("dashboard Agent");
       router.push(this.returnUrl || "/agentDashboard");
+    },
+    mounted() {
+      router.push(this.returnUrl || "/merchant");
     },
   },
 };
