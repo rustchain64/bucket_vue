@@ -2,6 +2,7 @@
   <div class="main-wrapper">
     <div class="container">
       <div class="rewards-header">Rewards Calculator</div>
+      <div class="slider-lable-hr"></div>
       <div class="slider-label-text">Referrals' Monthly Volume</div>
       <div class="slider-text-row">
         <div class="slider-text">$1000</div>
@@ -24,7 +25,10 @@
         v-model="volumeValue"
         name="volume"
       />
-
+      <div class="slider-rounded-text">
+        Slider increases by $1000 each time.
+      </div>
+      <div class="slider-lable-hr"></div>
       <div class="slider-label-text">Number of Referred Merchants</div>
       <div class="slider-text-row">
         <div class="slider-text">#1</div>
@@ -48,6 +52,7 @@
         name="referred"
       />
 
+      <div class="slider-lable-hr"></div>
       <div class="slider-label-text">Total Processing Volume</div>
       <input
         class="input-box"
@@ -109,8 +114,10 @@ export default {
       this.merchants = event.target.value;
     },
     computeProcessedVolume() {
-      this.volumeValue = "$" + this.volume.toLocaleString("en-US");
-      this.merchantValue + this.merchants.toLocaleString("en-US");
+      let roundedTo = Math.ceil(this.volume / 1000) * 1000;
+      this.volumeValue = "$" + roundedTo.toLocaleString("en-US");
+      this.merchantValue = this.merchants.toLocaleString("en-US");
+      console.log("merchantValue for INPUT: ", this.merchantValue);
       let avgVolume = this.volume;
       let referrals = this.merchants;
       let totalProcessing = avgVolume * referrals;
@@ -135,35 +142,47 @@ export default {
 
 <style scoped>
 .rewards-header {
-  color: rgb(9, 31, 126);
+  color: rgb(2, 19, 95);
   font-size: 1.3em;
-  font-weight: 600;
+  font-weight: 800;
+  font-family: Verdana, sans-serif;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 0px;
 }
+
+.slider-lable-hr {
+  border-bottom: 1px solid rgb(102, 120, 202, 0.4);
+  padding-top: 10px;
+}
 .slider-label-text {
   align-self: flex-start;
-  color: rgb(102, 120, 202);
+  color: rgb(2, 19, 95);
   font-weight: 600;
+  font-family: Verdana, sans-serif;
   padding-top: 5px;
   padding-bottom: 5px;
   margin-top: 10px;
-  border-top: 1px solid rgb(102, 120, 202, 0.4);
 }
 .slider-text-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 0.7em;
-}
-.piece-header {
-  color: whitesmoke;
-  font-size: 1.5em;
+  color: rgba(1, 7, 36, 0.4);
+  font-size: 0.8em;
   font-weight: 600;
-  font-family: cursive;
-  align-items: center;
+}
+
+.slider-rounded-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: rgba(1, 7, 36, 0.4);
+  font-size: 0.8em;
+  font-weight: 600;
+  padding-top: 5px;
+  padding-bottom: 10px;
 }
 
 .you-make-outer-container {
@@ -226,9 +245,9 @@ export default {
 .piece-input-box {
   color: rgb(102, 120, 202);
   text-align: right;
-  padding-right: 4%;
+  padding-right: 3%;
   padding-top: 4%;
-  padding-bottom: 5%;
+  padding-bottom: 3%;
   width: 85%;
   border-radius: 4pt;
   background-color: whitesmoke;
@@ -331,11 +350,20 @@ export default {
     padding-top: 1%;
     padding-bottom: 1%;
   }
+
+  .piece-header {
+    color: whitesmoke;
+    font-size: 1.3em;
+    font-weight: 600;
+    font-family: Verdana, sans-serif;
+    align-items: center;
+    padding-bottom: 10px;
+  }
   .piece-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(102, 120, 202);
+    background-color: #1c49ee;
     padding: 2%;
   }
 }
@@ -360,8 +388,16 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(102, 120, 202);
+    background-color: #1c49ee;
     padding: 2%;
+  }
+  .piece-header {
+    color: red;
+    font-size: 1em;
+    font-weight: 400;
+    font-family: Verdana, sans-serif;
+    align-items: center;
+    padding-bottom: 10px;
   }
 }
 
@@ -385,9 +421,17 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(102, 120, 202);
+    background-color: #1c49ee;
     padding: 2%;
     width: 100vw;
+  }
+  .piece-header {
+    color: whitesmoke;
+    font-size: 1.3em;
+    font-weight: 600;
+    font-family: Verdana, sans-serif;
+    align-items: center;
+    padding-bottom: 10px;
   }
 }
 
@@ -411,9 +455,17 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(102, 120, 202);
+    background-color: #1c49ee;
     padding: 2%;
     width: 100vw;
+  }
+  .piece-header {
+    color: whitesmoke;
+    font-size: 1.3em;
+    font-weight: 600;
+    font-family: Verdana, sans-serif;
+    align-items: center;
+    padding-bottom: 10px;
   }
 }
 </style>

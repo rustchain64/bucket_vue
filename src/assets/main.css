@@ -36,8 +36,11 @@ a,
 @media (min-width: 1024px) {
   body {
     display: flex;
-    place-items: center;
-    place-content: center;
+    justify-content: center;
+    align-items: center;
+    /* place-items: center;
+    place-content: center; */
+    /* align-items: center; */
     /* justify-content: center; */
     /* align-items: start;
     justify-items: center; */
@@ -46,9 +49,9 @@ a,
   }
 
   #app {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 0rem;
-    margin: 0 0rem;
+    margin: 0 0rem; */
   }
 }

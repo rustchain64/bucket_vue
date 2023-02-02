@@ -10,7 +10,10 @@ const authStore = useAuthStore();
   <div class="bg bg3"></div>
 
   <div class="wrapper">
-    <div class="nav_wrapper" v-show="authStore.user">
+    <!-- <div class="nav_wrapper" v-show="authStore.user"> -->
+    <!-- v-if="authStore.persona == 'admin' || 'Admin'" -->
+    <div class="nav_wrapper" v-show="authStore.persona == 'admin'">
+      {{ authStore.user }}
       <!-- <div class="nav_wrapper"> -->
       <img
         alt="Pie Logo"
