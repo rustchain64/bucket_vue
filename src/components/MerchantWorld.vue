@@ -35,7 +35,8 @@ const schema = Yup.object().shape({
     <!-- <div class="main"> -->
     <div>
       <div class="my-header">
-        <div v-if="userfirstname == null">
+        <!-- <div v-if="userfirstname == null"> -->
+        <div>
           <img
             alt="Pie logo"
             class="pie-header_logo"
@@ -66,7 +67,19 @@ const schema = Yup.object().shape({
           >
             FORM
           </button>
-          <button @click="agentDashboard" class="dash-button">DASH</button>
+          <!-- <button @click="agentDashboard" class="dash-button">DASH</button> -->
+          <button @click="agentDashboard" class="agent-referrals-btn">
+            DASH
+          </button>
+          <button @click="useAuthStore().logout()" class="agent-referrals-btn">
+            <!-- <img
+              alt="Log Out"
+              class="log-out"
+              src="@/assets/images/logOut.png"
+              height="30"
+            /> -->
+            Log Out
+          </button>
         </div>
       </div>
       <div v-if="list == false">
@@ -676,15 +689,22 @@ input[type="number"] {
   margin-left: 1%;
 }
 .agent-referrals-btn {
-  color: rgb(31, 30, 30);
-  font-size: 0.7em;
-  font-weight: 700;
-  height: 60%;
-  background-color: whitesmoke;
-  border-radius: 2pt;
-  border-right: 1pt solid #1d5038;
-  border-bottom: 2pt solid #1d5038;
-  padding: 5px;
+  color: white;
+  text-align: center;
+  background-color: limegreen;
+  border-top-right-radius: 20pt;
+  border-top-left-radius: 20pt;
+  border-left: 2px solid rgb(1, 54, 25, 0.5);
+  border-bottom-right-radius: 20pt;
+  border-bottom-left-radius: 20pt;
+  border-left: 0pt solid rgb(1, 54, 25, 0.5);
+  border-right: 2pt solid rgb(1, 54, 25, 0.5);
+  border-bottom: 3pt solid rgb(1, 54, 25, 0.5);
+  background: linear-gradient(-45deg, #1c49ee 0%, #22f74c 100%);
+  height: 30pt;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 0px;
 }
 
 .dash-button {
@@ -732,14 +752,22 @@ input[type="number"] {
 
 #create-mrch-btn {
   color: white;
+  text-align: center;
   background-color: limegreen;
-  border-radius: 8pt;
-  border-right: 1pt solid rgb(1, 54, 25, 0.5);
-  border-bottom: 2pt solid rgb(1, 54, 25, 0.5);
-  height: 75%;
-  padding-left: 3%;
-  padding-right: 3%;
-  margin-top: 29px;
+  border-top-right-radius: 20pt;
+  border-top-left-radius: 20pt;
+  border-left: 2px solid rgb(1, 54, 25, 0.5);
+  border-bottom-right-radius: 20pt;
+  border-bottom-left-radius: 20pt;
+  border-left: 0pt solid rgb(1, 54, 25, 0.5);
+  border-right: 2pt solid rgb(1, 54, 25, 0.5);
+  border-bottom: 3pt solid rgb(1, 54, 25, 0.5);
+  background: linear-gradient(-45deg, #1c49ee 0%, #22f74c 100%);
+  height: 30pt;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 1%;
+  margin-top: 35px;
 }
 
 @media only screen and (min-width: 1025px) {
@@ -808,7 +836,7 @@ input[type="number"] {
   .my-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 8vh;
     background-color: rgba(255, 255, 255, 0.4);
   }
