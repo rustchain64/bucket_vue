@@ -51,7 +51,7 @@ const schema = Yup.object().shape({
         </span>
         <span> -->
         <div class="dash-row">
-          Create a Merchant
+          <div class="create_merch_txt">Create a Merchant</div>
 
           <button
             v-if="list == false"
@@ -72,12 +72,6 @@ const schema = Yup.object().shape({
             DASH
           </button>
           <button @click="useAuthStore().logout()" class="agent-referrals-btn">
-            <!-- <img
-              alt="Log Out"
-              class="log-out"
-              src="@/assets/images/logOut.png"
-              height="30"
-            /> -->
             Log Out
           </button>
         </div>
@@ -265,17 +259,30 @@ const schema = Yup.object().shape({
                 {{ errors.description }}
               </div>
             </div>
-            <!-- <button
-              class="btn btn-primary"
-              :disabled="isSubmitting"
-              id="submit-style"
-            > -->
+            <div class="agreement">
+              <input type="checkbox" id="checkbox" v-model="checked" />
+              <label for="checkbox"
+                >By selecting, I agree to the terms as stated in the
+                agreement.</label
+              >
+            </div>
+
             <input
+              v-if="checked == true"
               type="submit"
               value="Create Merchant"
               class="btn btn-primary"
               :disabled="isSubmitting"
               id="create-mrch-btn"
+            />
+
+            <input
+              v-if="checked == false"
+              type="submit"
+              value="Create Merchant"
+              class="btn btn-primary"
+              :disabled="checked ? '' : disabled"
+              id="create-mrch-btn-disabled"
             />
           </div>
         </Form>
@@ -418,6 +425,7 @@ export default {
       userlastname: null,
       agentcode: "",
       list: false,
+      checked: false,
     };
   },
   methods: {
@@ -702,8 +710,8 @@ input[type="number"] {
   border-bottom: 3pt solid rgb(1, 54, 25, 0.5);
   background: linear-gradient(-45deg, #1c49ee 0%, #22f74c 100%);
   height: 30pt;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin-left: 0px;
 }
 
@@ -763,6 +771,25 @@ input[type="number"] {
   border-right: 2pt solid rgb(1, 54, 25, 0.5);
   border-bottom: 3pt solid rgb(1, 54, 25, 0.5);
   background: linear-gradient(-45deg, #1c49ee 0%, #22f74c 100%);
+  height: 30pt;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 1%;
+  margin-top: 35px;
+}
+#create-mrch-btn-disabled {
+  color: white;
+  text-align: center;
+  background-color: limegreen;
+  border-top-right-radius: 20pt;
+  border-top-left-radius: 20pt;
+  border-left: 2px solid rgb(1, 54, 25, 0.5);
+  border-bottom-right-radius: 20pt;
+  border-bottom-left-radius: 20pt;
+  border-left: 0pt solid rgb(1, 54, 25, 0.5);
+  border-right: 2pt solid rgb(1, 54, 25, 0.5);
+  border-bottom: 3pt solid rgb(1, 54, 25, 0.5);
+  background: linear-gradient(-45deg, #adb7db 0%, #84aa8b 100%);
   height: 30pt;
   padding-left: 15px;
   padding-right: 15px;
@@ -986,6 +1013,9 @@ input[type="number"] {
     background-color: rgba(255, 255, 255, 0.4);
     height: 7vh;
   }
+  .create_merch_txt {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 375px) and (max-width: 767px) {
@@ -1047,7 +1077,7 @@ input[type="number"] {
 
   #input-width {
     margin-left: 2%;
-    width: 93%;
+    width: 94%;
   }
 
   #form_bg {
@@ -1063,6 +1093,16 @@ input[type="number"] {
     justify-content: space-around;
     background-color: rgba(255, 255, 255, 0.4);
     height: 7vh;
+  }
+  .create_merch_txt {
+    display: none;
+  }
+  .agreement {
+    margin-left: 2%;
+    width: 94%;
+  }
+  .checkbox {
+    padding-right: 5px;
   }
 }
 </style>
