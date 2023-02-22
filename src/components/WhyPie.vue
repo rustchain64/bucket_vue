@@ -6,8 +6,8 @@
         <img src="../assets/images/process.png" class="proc-img" />
         <div class="header-text">We pay you to process</div>
         <div class="card-text">
-          Work with us and we pay you monthly for referrals! Refer when yo want,
-          and build a book of business.
+          Work with us and we pay you monthly for referrals! Refer when you
+          want, and build a book of business.
         </div>
       </div>
       <div class="process">
@@ -24,8 +24,8 @@
         <div class="header-text">Residual Income</div>
         <div class="card-text">
           As long as your portolio is active and processing you will receive
-          monthly residuals forever. This will you pay off expenses or just have
-          some extra cash!
+          monthly residuals forever. "This will you pay off expenses or just
+          have some extra cash!"
         </div>
       </div>
     </div>

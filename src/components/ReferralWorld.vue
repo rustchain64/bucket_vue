@@ -265,11 +265,11 @@ const schema = Yup.object().shape({
     />
 
     <div v-if="userfirstname != null">
-      <h3>Success!! {{ userfirstname }} your merchant</h3>
+      <h3>Success!! {{ userfirstname }} your referral</h3>
       <p>has been created!</p>
     </div>
     <div v-else>
-      <h3>Success!! {{ userfirstname }} your merchant</h3>
+      <h3>Success!! {{ userfirstname }} your referral</h3>
       <p>has been created!</p>
     </div>
 
@@ -1018,8 +1018,8 @@ export default {
   }
   .left-side-header-text {
     color: rgb(249, 115, 5);
-    font-size: 1em;
-    font-weight: 200;
+    font-size: 0.8em;
+    font-weight: 100;
     font-family: Verdana, sans-serif;
     padding-left: 0px;
     padding-right: 0px;
@@ -1189,8 +1189,9 @@ export default {
   }
   .left-side-header-text {
     color: rgb(3, 93, 30);
-    font-size: 1.6em;
-    font-weight: 800;
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: Verdana, sans-serif;
     padding-left: 0px;
     padding-right: 0px;
     padding-top: 20px;
@@ -1198,8 +1199,9 @@ export default {
   }
   .left-side-text {
     color: rgb(3, 93, 30);
-    font-size: 1.5em;
-    font-weight: 400;
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: Verdana, sans-serif;
     padding-bottom: 0px;
   }
   .right-side-content {

@@ -1,62 +1,61 @@
+<script setup>
+import { useTermsStore } from "@/stores";
+</script>
+
 <template>
   <div class="wrapper">
     <div class="why-text">
-      <div class="why-text">Refer Anyone from</div>
-      <div class="why-text">&nbsp;Anywhere</div>
+      <div class="why-text">Terms and Conditions</div>
+      <div class="why-text">&nbsp;Updated March 11th, 2019</div>
     </div>
     <div class="container-wrapper">
       <div class="container">
         <div class="process-left">
-          <div class="header-row">
-            <div class="header-text">40k +</div>
-            <div class="column-text">Merchant Partners</div>
-          </div>
           <div class="card-text">
-            Our Getpie.io merchant community is growing daily. We strive to save
-            our customers money and help them make money as well.
+            <p>
+              These Terms and Conditions ("Terms", "Terms and Conditions")
+              govern your relationship with https:/getpie.io website, browser
+              extensions and Snippet mobile application (the "Service") operated
+              by MOVALIO MEDIA SRL ("us", "we", or "our"). Please read these
+              Terms and Conditions carefully before using our website and
+              Snippet mobile application (the "Service").
+            </p>
+            <br />
+            <p>
+              <strong>
+                Your access to and use of the Service is conditioned on your
+                acceptance of and compliance with these Terms. These Terms apply
+                to all visitors, users and others who access or use the Service.
+                By accessing or using the Service you agree to be bound by these
+                Terms. If you disagree with any part of the terms then you may
+                not access the Service. Content Our Service allows you to post,
+                link, store, share and otherwise make available certain
+                information, text, graphics, videos, or other material
+                ("Content"). You are responsible for the Content that you post
+                to the Service, including its legality, reliability, and
+                appropriateness.
+              </strong>
+            </p>
+            <br />
+            <p>
+              By posting Content to the Service, you grant us the right and
+              license to use, modify, perform, display, reproduce, and
+              distribute such Content on and through the Service. You retain any
+              and all of your rights to any Content you submit, post or display
+              on or through the Service and you are responsible for protecting
+              those rights. You represent and warrant that: (i) the Content is
+              yours (you own it) or you have the right to use it and grant us
+              the rights and license as provided in these Terms, and (ii) the
+              posting of your Content on or through the Service does not violate
+              the privacy rights, publicity rights, copyrights, contract rights
+              or any other rights of any person.
+            </p>
           </div>
         </div>
-        <div class="process-left">
-          <div class="header-row">
-            <div class="header-text">$300k +</div>
-            <div class="column-text">in residuals paid out monthly</div>
-          </div>
-          <div class="card-text">
-            As long as your portfolio is active and processing you will receive
-            monthly residuals forever. This will help you pay off your expenses
-            in your business or help you pay for anything.
-          </div>
-        </div>
+        <!-- <div class="termsAgreement">
+          <button @click="closeAgreement">Close Terms and Agreement</button>
+        </div> -->
       </div>
-      <div class="container">
-        <div class="process-right">
-          <div class="header-row">
-            <div class="header-text">4.2k +</div>
-            <div class="column-text">Cities across the USA</div>
-          </div>
-          <div class="card-text">
-            With our GetPie.io Agents across America we work to ensure that you
-            have the best support and service in the industry.
-          </div>
-        </div>
-        <div class="process-right">
-          <div class="header-row">
-            <div class="header-text">99% +</div>
-            <div class="column-text">5 Star Review</div>
-          </div>
-          <div class="card-text">
-            Getpie.io is loved by thousands of current customers! We have 99%
-            five-star reviews and are looking forward to having your business
-            benefit from monthly referral income as well.
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-text">
-      <div>
-        <button @click="scrollToTop()" class="refer-btn">Refer Now!</button>
-      </div>
-      <div class="faq">Have some questions? Visit our FAQ page</div>
     </div>
   </div>
 </template>
@@ -70,29 +69,19 @@ export default {
     };
   },
   methods: {
-    scrollToTop() {
+    closeAgreement() {
       console.log("scroll to top");
-      window.scrollTo(0, 0);
+      useTermsStore().termsClose();
     },
-  },
-  mounted() {
-    const that = this;
-    window.addEventListener("scroll", () => {
-      let scrollPos = window.scrollY;
-      if (scrollPos >= 100) {
-        that.isTop = true;
-      } else {
-        that.isTop = false;
-      }
-    });
   },
 };
 </script>
 
 <style scoped>
 .wrapper {
-  background-color: #1c49ee;
-  padding-top: 1%;
+  background-color: #748bde;
+  padding-top: 0px;
+  height: 100vh;
 }
 .footer-text {
   display: flex;
@@ -160,6 +149,17 @@ export default {
   padding-top: 4%;
   padding-bottom: 4%;
   width: 180px;
+}
+
+.termsAgreement {
+  width: 100%;
+  background-color: grey;
+  display: flex;
+  align-items: center;
+}
+.termsAgreement button {
+  color: whitesmoke;
+  background-color: #1d5038;
 }
 
 @media only screen and (min-width: 1025px) {

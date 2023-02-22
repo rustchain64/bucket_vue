@@ -10,7 +10,7 @@
   <div class="bg bg3"></div>
   <div>
     <div id="card-header">
-      <h3>Finish and Approve Referral as Merchant</h3>
+      <h3>Finish and Approve Referral into a Merchant</h3>
       <div class="form-group" id="pending-box">
         <label><strong>Status:</strong></label>
         {{ currentReferral.published ? "Published" : "Pending" }}
@@ -80,7 +80,7 @@
               />
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row" id="form_row_bg">
             <div class="form-group space" id="form_group_bg">
               <label for="email">Email</label>
               <input
@@ -100,50 +100,60 @@
               />
             </div>
           </div>
-          <div class="form-group space">
-            <label for="bankName">Bank Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="bankName"
-              v-model="currentReferral.bankname"
-            />
+          <div class="form-row" id="form_row_bg">
+            <div class="form-group" id="form_group_bg_long">
+              <label for="bankName">Bank Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="bankName"
+                v-model="currentReferral.bankname"
+              />
+            </div>
           </div>
-          <div class="form-group space">
-            <label for="routingNumber">Routing Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="routingNumber"
-              v-model="currentReferral.routingnumber"
-            />
+
+          <div class="form-row" id="form_row_bg">
+            <div class="form-group space" id="form_group_bg">
+              <label for="routingNumber">Routing Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="routingNumber"
+                v-model="currentReferral.routingnumber"
+              />
+            </div>
+            <div class="form-group space" id="form_group_bg">
+              <label for="accountNumber">Account Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="accountNumber"
+                v-model="currentReferral.accountnumber"
+              />
+            </div>
           </div>
-          <div class="form-group space">
-            <label for="accountNumber">Account Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="accountNumber"
-              v-model="currentReferral.accountnumber"
-            />
+
+          <div class="form-row" id="form_row_bg">
+            <div class="form-group" id="form_group_bg_long">
+              <label for="title">Note</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                v-model="currentReferral.title"
+              />
+            </div>
           </div>
-          <div class="form-group space">
-            <label for="title">Note</label>
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              v-model="currentReferral.title"
-            />
-          </div>
-          <div class="form-group space">
-            <label for="description">Description</label>
-            <input
-              type="text"
-              class="form-control"
-              id="description"
-              v-model="currentReferral.description"
-            />
+          <div class="form-row" id="form_row_bg">
+            <div class="form-group" id="form_group_bg_long">
+              <label for="description">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                v-model="currentReferral.description"
+              />
+            </div>
           </div>
 
           <div class="form-group">
@@ -273,10 +283,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+@import "@/assets/main.css";
+
 #card-header {
   display: flex;
   justify-content: space-between;
+  color: var(--adm-text-green);
   background-color: rgba(255, 255, 255, 0.7);
 }
 #card-header h3 {
@@ -284,6 +297,7 @@ export default {
   margin-top: 2%;
 }
 #pending-box {
+  color: var(--adm-text-green);
   margin-right: 3%;
   margin-top: 2%;
   border-style: solid;
@@ -293,41 +307,23 @@ export default {
   padding-right: 1%;
 }
 #card-body-bg {
+  color: var(--adm-text-green);
   background-color: rgba(255, 255, 255, 0.4);
   width: 100%;
 }
 #form_row_bg {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-left: 15px;
 }
 #form_group_bg {
   width: 48%;
 }
+#form_group_bg_long {
+  width: 98%;
+}
 .space {
   margin-right: 2%;
-}
-/* .edit-form {
-  max-width: 600px;
-  margin: auto;
-} */
-
-.bg {
-  animation: slide 4s ease-in-out infinite alternate;
-  background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
-  bottom: 0;
-  left: -50%;
-  opacity: 0.5;
-  position: fixed;
-  right: -50%;
-  top: 0;
-  z-index: -1;
-}
-
-.bg2 {
-  animation-direction: alternate-reverse;
-  animation-duration: 2s;
-}
-
-.bg3 {
-  animation-duration: 4s;
 }
 </style>

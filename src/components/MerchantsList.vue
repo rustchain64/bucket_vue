@@ -16,15 +16,15 @@ console.log("user is: ", user);
     <h4 id="card-header">Merchant's List</h4>
     <!-- <div class="card-body"> -->
     <!-- <div class="list row"> -->
-    <div class="col-md-6">
-      <div class="input-group">
+    <div>
+      <div class="search-row">
         <input
           type="text"
           class="form-control"
-          placeholder="Search by Your Name"
+          placeholder="Search by Business Name"
           v-model="yourname"
         />
-        <div class="input-group-append">
+        <div class="search-btn">
           <button
             class="btn btn-outline-secondary"
             type="button"
@@ -35,80 +35,86 @@ console.log("user is: ", user);
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <h4><em>Merchants List</em></h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          :class="{ active: index == currentIndex }"
-          v-for="(referral, index) in referrals"
-          :key="index"
-          @click="setActiveReferral(referral, index)"
-        >
-          {{ referral.referralname }}
-          <!-- {{ referral.agentName }}
+    <div class="list-wrapper">
+      <div class="left-list">
+        <h4><em>Merchant's List</em></h4>
+        <ul id="list-group">
+          <li
+            class="list-business-item"
+            :class="{ active: index == currentIndex }"
+            v-for="(referral, index) in referrals"
+            :key="index"
+            @click="setActiveReferral(referral, index)"
+          >
+            {{ referral.businessname }}
+            <!-- {{ referral.agentName }}
               {{ referral.agentCode }}
               {{ referral.phone }} -->
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <div v-if="currentReferral">
-        <h4><em>Merchant Info</em></h4>
+          </li>
+        </ul>
         <div>
-          <label><strong>Merchant Name:</strong></label>
-          {{ currentReferral.yourname }}
+          <br />
+          <p>Please click on a Merchant...</p>
         </div>
-        <div>
-          <label><strong>Referral Name:</strong></label>
-          {{ currentReferral.referralname }}
-        </div>
-        <div>
-          <label><strong>Agent Name:</strong></label>
-          {{ currentReferral.agentname }}
-        </div>
-        <div>
-          <label><strong>Agent Code:</strong></label>
-          {{ currentReferral.agentcode }}
-        </div>
-        <div>
-          <label><strong>BusinessName:</strong></label>
-          {{ currentReferral.businessname }}
-        </div>
-        <div>
-          <label><strong>Phone:</strong></label>
-          {{ currentReferral.phone }}
-        </div>
-        <div>
-          <label><strong>Email:</strong></label>
-          {{ currentReferral.email }}
-        </div>
-        <div>
-          <label><strong>Note:</strong></label>
-          {{ currentReferral.title }}
-        </div>
-        <div>
-          <label><strong>Description:</strong></label>
-          {{ currentReferral.description }}
-        </div>
-        <div>
-          <label><strong>Status:</strong></label>
-          {{ currentReferral.published ? "Published" : "Pending" }}
-        </div>
-
-        <router-link
-          :to="{ name: 'Referral', params: { id: currentReferral.id } }"
-          class="badge badge-primary"
-        >
-          Edit
-        </router-link>
       </div>
 
-      <div v-else>
-        <br />
-        <p>Please click on a Merchant...</p>
+      <div class="right-list">
+        <div v-if="currentReferral">
+          <div class="right-list-header">
+            <h4><em>Merchant Info</em></h4>
+          </div>
+          <div>
+            <label><strong>Merchant Name:</strong></label>
+            {{ currentReferral.yourname }}
+          </div>
+          <div>
+            <label><strong>Referral Name:</strong></label>
+            {{ currentReferral.referralname }}
+          </div>
+          <div>
+            <label><strong>Agent Name:</strong></label>
+            {{ currentReferral.agentname }}
+          </div>
+          <div>
+            <label><strong>Agent Code:</strong></label>
+            {{ currentReferral.agentcode }}
+          </div>
+          <div>
+            <label><strong>BusinessName:</strong></label>
+            {{ currentReferral.businessname }}
+          </div>
+          <div>
+            <label><strong>Phone:</strong></label>
+            {{ currentReferral.phone }}
+          </div>
+          <div>
+            <label><strong>Email:</strong></label>
+            {{ currentReferral.email }}
+          </div>
+          <div>
+            <label><strong>Note:</strong></label>
+            {{ currentReferral.title }}
+          </div>
+          <div>
+            <label><strong>Description:</strong></label>
+            {{ currentReferral.description }}
+          </div>
+          <div>
+            <label><strong>Status:</strong></label>
+            {{ currentReferral.published ? "Published" : "Pending" }}
+          </div>
+          <div class="right-edit-btn">
+            <router-link
+              :to="{ name: 'Referral', params: { id: currentReferral.id } }"
+              class="badge"
+            >
+              Edit
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
+
     <!-- </div> -->
   </div>
   <!-- </div> -->
@@ -173,19 +179,20 @@ export default {
       this.currentReferral = tutorial;
       this.currentIndex = tutorial ? index : -1;
     },
-    // searchReferral() {
-    //   DataService.findByTitle(this.currentReferral.yourname)
-    //     .then((response) => {
-    //       this.referrals = response.data;
-    //       this.setActiveReferral(null);
-    //       console.log("SEARCH TITLE RESPONSE DATA:::  ", response.data);
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     async searchReferral() {
-      console.log("GET merchants by yourname ", this.yourname);
+      console.log("GET merchants by business name ", this.businessname);
+      this.url = "/api/merchants/" + this.businessname;
+      const referralResults = await fetch(this.url, {
+        method: "GET",
+      });
+      if (referralResults.ok) {
+        const resultData = await referralResults.json();
+        this.referrals = resultData;
+        console.log("SEARCH RESPONSE DATA:::  ", resultData);
+      }
+    },
+    async loadReferrals() {
+      console.log("GET merchants by business name ", this.yourname);
       this.url = "/api/merchants/" + this.yourname;
       const referralResults = await fetch(this.url, {
         method: "GET",
@@ -202,23 +209,33 @@ export default {
     //this.userData = currentUser.agentCode;
     //this.question = currentUser.agentCode;
     //console.log("REFERRALS LIST USER AGENT CODE IS : ", this.userData);
-    this.searchReferral();
+    this.loadReferrals();
   },
 };
 </script>
 
 <style scoped>
 #form_bg {
-  width: 95%;
+  width: 98%;
+  color: var(--adm-text-green);
   background-color: rgba(255, 255, 255, 0.4);
   border-style: solid;
   border-width: 1px;
   border-color: whitesmoke;
 }
-.list {
-  text-align: left;
-  width: 90vw;
-  margin: auto;
+
+.search-row {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+}
+.search-btn {
+  color: whitesmoke;
+  background-color: transparent;
+}
+
+#list-header {
+  display: flex;
 }
 
 #card-header {
@@ -230,5 +247,68 @@ export default {
 #card-body-bg {
   background-color: rgba(255, 255, 255, 0.4);
   width: 90vw;
+}
+
+.list-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.left-list {
+  margin-right: 5%;
+}
+#list-group {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0px;
+}
+#list-group li {
+  text-decoration: none;
+}
+
+.right-list {
+  width: 60%;
+  height: 80%;
+  margin-top: 10px;
+  margin-right: 0px;
+  padding-right: 0px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10pt;
+  border: 2px solid rgb(128, 128, 128, 0.3);
+  background-color: rgb(0, 128, 0, 0.4);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.right-list-header {
+  color: whitesmoke;
+  background-color: var(--adm-text-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-right: 0px;
+  background-color: 1px solid black;
+  border-top-right-radius: 10pt;
+  border-top-left-radius: 10pt;
+}
+
+.right-list label {
+  color: white;
+  padding-left: 14px;
+}
+.right-edit-btn {
+  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--adm-text-green);
+  border-bottom-right-radius: 10pt;
+  border-bottom-left-radius: 10pt;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 </style>

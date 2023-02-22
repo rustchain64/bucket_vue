@@ -68,7 +68,9 @@
       <div class="you-make-outer-container">
         <div class="you-make-container">
           <div class="you-make-text">YOU MAKE!!</div>
-          <input class="you-make-input" v-model="yourMake" />
+          <div class="you-make-input">
+            {{ this.yourMake }}
+          </div>
           <div class="per-yr-text">Per Year!</div>
         </div>
       </div>
@@ -214,24 +216,6 @@ export default {
 .you-make-text {
   color: whitesmoke;
 }
-.you-make-input {
-  color: whitesmoke;
-  font-size: 1.5em;
-  font-weight: 600;
-  width: 58%;
-  background: transparent;
-  border: white;
-  margin-left: 5px;
-  margin-bottom: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-bottom: 2pt solid rgba(6, 37, 176, 0.4);
-}
-.you-make-input ::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: whitesmoke;
-  opacity: 1; /* Firefox */
-}
 .per-yr-text {
   color: whitesmoke;
 }
@@ -366,6 +350,18 @@ export default {
     background-color: #1c49ee;
     padding: 2%;
   }
+  .you-make-input {
+    color: whitesmoke;
+    font-size: 1.5em;
+    font-weight: 600;
+    background: transparent;
+    border: white;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2pt solid rgba(6, 37, 176, 0.4);
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -398,6 +394,18 @@ export default {
     font-family: Verdana, sans-serif;
     align-items: center;
     padding-bottom: 10px;
+  }
+  .you-make-input {
+    color: whitesmoke;
+    font-size: 1.5em;
+    font-weight: 600;
+    background: transparent;
+    border: white;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2pt solid rgba(6, 37, 176, 0.4);
   }
 }
 
@@ -433,6 +441,18 @@ export default {
     align-items: center;
     padding-bottom: 10px;
   }
+  .you-make-input {
+    color: red;
+    font-size: 1.5em;
+    font-weight: 600;
+    background: transparent;
+    border: white;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2pt solid rgba(6, 37, 176, 0.4);
+  }
 }
 
 @media only screen and (min-width: 360px) and (max-width: 767px) {
@@ -466,6 +486,19 @@ export default {
     font-family: Verdana, sans-serif;
     align-items: center;
     padding-bottom: 10px;
+  }
+  .you-make-input {
+    align-items: center;
+    color: whitesmoke;
+    font-size: 1.5em;
+    font-weight: 600;
+    background: transparent;
+    border: white;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2pt solid rgba(6, 37, 176, 0.4);
   }
 }
 </style>

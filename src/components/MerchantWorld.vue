@@ -3,8 +3,10 @@ import { router } from "@/router";
 import { useAlertStore } from "@/stores/alert.store";
 import { useReferralStore } from "@/stores/refer.store";
 import { useAuthStore } from "@/stores";
+import { useTermsStore } from "@/stores";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+import Terms from "@/components/Terms";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -76,6 +78,14 @@ const schema = Yup.object().shape({
           </button>
         </div>
       </div>
+      <div v-show="terms == true" class="termsContainer">
+        <Terms />
+        <div class="termsAgreement-btn">
+          <button @click="termsAgreementClose">
+            Close Terms and Agreement
+          </button>
+        </div>
+      </div>
       <div v-if="list == false">
         <Form
           @submit="updateMerchants"
@@ -88,6 +98,8 @@ const schema = Yup.object().shape({
               <Field
                 name="yourname"
                 type="text"
+                aria-placeholder="Your Name"
+                placeholder="Your Name"
                 v-model="referForm.yourname"
                 class="form-control"
                 :class="{ 'is-invalid': errors.yourname }"
@@ -102,6 +114,8 @@ const schema = Yup.object().shape({
               <Field
                 name="referralname"
                 type="text"
+                aria-placeholder="Referral's Name"
+                placeholder="Referral's Name"
                 v-model="referForm.referralname"
                 value="referralname"
                 class="form-control"
@@ -111,40 +125,14 @@ const schema = Yup.object().shape({
                 {{ errors.referralname }}
               </div>
             </div>
-            <div class="form-group" id="input-width">
-              <label id="enhance-text">Agent's Name</label>
-              <Field
-                name="agentname"
-                type="text"
-                v-model="referForm.agentname"
-                class="form-control"
-                :class="{ 'is-invalid': errors.agentname }"
-              />
-              <div class="invalid-feedback" id="v-red">
-                {{ errors.agentname }}
-              </div>
-            </div>
-          </div>
 
-          <div class="my-row">
-            <div class="form-group" id="input-width">
-              <label id="enhance-text">Agent's Code</label>
-              <Field
-                name="agentcode"
-                type="text"
-                v-model="referForm.agentcode"
-                class="form-control"
-                :class="{ 'is-invalid': errors.agentcode }"
-              />
-              <div class="invalid-feedback" id="v-red">
-                {{ errors.agentcode }}
-              </div>
-            </div>
             <div class="form-group" id="input-width">
               <label id="enhance-text">Business Name</label>
               <Field
                 name="businessname"
                 type="text"
+                aria-placeholder="Business Name"
+                placeholder="Business Name"
                 v-model="referForm.businessname"
                 class="form-control"
                 :class="{ 'is-invalid': errors.businessname }"
@@ -153,11 +141,47 @@ const schema = Yup.object().shape({
                 {{ errors.businessname }}
               </div>
             </div>
+          </div>
+
+          <div class="my-row">
+            <div class="form-group" id="input-width">
+              <label id="enhance-text">City</label>
+              <Field
+                name="agentname"
+                type="text"
+                aria-placeholder="City"
+                placeholder="City"
+                v-model="referForm.agentname"
+                class="form-control"
+                :class="{ 'is-invalid': errors.agentname }"
+              />
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.agentname }}
+              </div>
+            </div>
+            <div class="form-group" id="input-width">
+              <label id="enhance-text">Agent's Code</label>
+              <Field
+                name="agentcode"
+                type="text"
+                aria-placeholder="Agent's Code"
+                placeholder="Agent's Code"
+                v-model="referForm.agentcode"
+                class="form-control"
+                :class="{ 'is-invalid': errors.agentcode }"
+              />
+              <div class="invalid-feedback" id="v-red">
+                {{ errors.agentcode }}
+              </div>
+            </div>
+
             <div class="form-group" id="input-width">
               <label id="enhance-text">Phone</label>
               <Field
                 name="phone"
                 type="text"
+                aria-placeholder="Phone"
+                placeholder="Phone"
                 v-model="referForm.phone"
                 class="form-control"
                 :class="{ 'is-invalid': errors.phone }"
@@ -172,6 +196,8 @@ const schema = Yup.object().shape({
               <Field
                 name="email"
                 type="text"
+                aria-placeholder="Email"
+                placeholder="Email"
                 v-model="referForm.email"
                 class="form-control"
                 :class="{ 'is-invalid': errors.email }"
@@ -184,6 +210,8 @@ const schema = Yup.object().shape({
               <Field
                 name="ss"
                 type="text"
+                aria-placeholder="SS"
+                placeholder="SS"
                 v-model="referForm.ss"
                 class="form-control"
                 :class="{ 'is-invalid': errors.ss }"
@@ -195,6 +223,8 @@ const schema = Yup.object().shape({
               <Field
                 name="bankname"
                 type="text"
+                aria-placeholder="Bank Name"
+                placeholder="Bank Name"
                 v-model="referForm.bankname"
                 class="form-control"
                 :class="{ 'is-invalid': errors.bankname }"
@@ -211,6 +241,8 @@ const schema = Yup.object().shape({
               <Field
                 name="routingnumber"
                 type="text"
+                aria-placeholder="Routing Number"
+                placeholder="Routing Number"
                 v-model="referForm.routingnumber"
                 class="form-control"
                 :class="{ 'is-invalid': errors.routingnumber }"
@@ -224,6 +256,8 @@ const schema = Yup.object().shape({
               <Field
                 name="accountnumber"
                 type="text"
+                aria-placeholder="Account Number"
+                placeholder="Account Number"
                 v-model="referForm.accountnumber"
                 class="form-control"
                 :class="{ 'is-invalid': errors.accountnumber }"
@@ -237,6 +271,8 @@ const schema = Yup.object().shape({
               <Field
                 name="title"
                 type="text"
+                aria-placeholder="Title"
+                placeholder="Title"
                 v-model="referForm.title"
                 class="form-control"
                 :class="{ 'is-invalid': errors.title }"
@@ -251,6 +287,8 @@ const schema = Yup.object().shape({
               <Field
                 name="description"
                 type="text"
+                aria-placeholder="Description"
+                placeholder="Description"
                 v-model="referForm.description"
                 class="form-control"
                 :class="{ 'is-invalid': errors.description }"
@@ -262,8 +300,10 @@ const schema = Yup.object().shape({
             <div class="agreement">
               <input type="checkbox" id="checkbox" v-model="checked" />
               <label for="checkbox"
-                >By selecting, I agree to the terms as stated in the
-                agreement.</label
+                >I agree to the
+                <span @click="termsAgreementOpen" id="the-terms"
+                  >terms and conditions.</span
+                ></label
               >
             </div>
 
@@ -366,11 +406,11 @@ const schema = Yup.object().shape({
     />
 
     <div v-if="userfirstname != null">
-      <h3>Thanks {{ userfirstname }} for your referral</h3>
+      <h3>Thanks {{ userfirstname }} your for creating merchant</h3>
       <p>Your agent should call you shortly!</p>
     </div>
     <div v-else>
-      <h3>Thanks for your Referral</h3>
+      <h3>Thanks For Creating a Merchant</h3>
       <h3>We will contact your agent!</h3>
       <p>You should receive a call shortly!</p>
     </div>
@@ -426,6 +466,7 @@ export default {
       agentcode: "",
       list: false,
       checked: false,
+      terms: null,
     };
   },
   methods: {
@@ -433,6 +474,13 @@ export default {
       console.log("INDEX : ", index);
       console.log("MODULUD: ", Math.ceil((index + 1) / 2));
       return "data_" + Math.ceil((index + 1) / 2);
+    },
+    termsAgreementOpen() {
+      this.terms = true;
+    },
+    termsAgreementClose() {
+      this.terms = false;
+      // window.scrollTo(0, 500);
     },
     async getFilteredList(id) {
       console.log("GET FILTERED REFERRAL LIST by agentcode as ID ", id);
@@ -606,6 +654,16 @@ export default {
     },
   },
   mounted: function () {
+    const that = this;
+    window.addEventListener("scroll", () => {
+      let scrollPos = window.scrollY;
+      if (scrollPos >= 50) {
+        that.isTop = true;
+      } else {
+        that.isTop = false;
+      }
+    });
+
     this.list = false;
     //this._refreshReferralData();
 
@@ -626,6 +684,7 @@ export default {
     } else {
       console.log("ERROR:: INIT AUTH USER STATE IS: ", useAuthStore().user);
     }
+    this.terms = useTermsStore().termsIsOpen;
   },
 };
 </script>
@@ -796,6 +855,19 @@ input[type="number"] {
   margin-left: 1%;
   margin-top: 35px;
 }
+.termsContainer {
+  z-index: 50;
+  position: fixed;
+  top: 0;
+  margin-top: -8px;
+}
+.termsAgreement-btn {
+  display: flex;
+  align-items: center;
+  z-index: 60;
+  position: fixed;
+  bottom: 0;
+}
 
 @media only screen and (min-width: 1025px) {
   #from-ref-list {
@@ -867,6 +939,18 @@ input[type="number"] {
     height: 8vh;
     background-color: rgba(255, 255, 255, 0.4);
   }
+  .agreement {
+    margin-left: 2%;
+    width: 94%;
+    color: grey;
+  }
+  .checkbox {
+    padding-right: 5px;
+  }
+  #the-terms {
+    color: rgb(2, 87, 15, 0.9);
+    text-decoration: underline;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -923,6 +1007,8 @@ input[type="number"] {
     margin: 0px;
     padding: 0px;
     background-color: rgba(255, 255, 255, 0.4);
+    border-width: 1px;
+    border-color: whitesmoke;
   }
   .my-header {
     display: flex;
@@ -930,6 +1016,17 @@ input[type="number"] {
     justify-content: space-around;
     height: 8vh;
     background-color: rgba(255, 255, 255, 0.4);
+  }
+  .agreement {
+    margin-left: 2%;
+    width: 94%;
+  }
+  .checkbox {
+    padding-right: 5px;
+  }
+  #the-terms {
+    color: rgb(2, 87, 15, 0.9);
+    text-decoration: underline;
   }
 }
 /* this os for iphone */
@@ -1000,11 +1097,13 @@ input[type="number"] {
 
   #form_bg {
     width: 100vw;
-    height: 100vh;
+    height: 200%;
     margin-top: 0vh;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(255, 255, 255, 0.4);
+    border-width: 1px;
+    border-color: whitesmoke;
   }
   .my-header {
     display: flex;
@@ -1015,6 +1114,17 @@ input[type="number"] {
   }
   .create_merch_txt {
     display: none;
+  }
+  .agreement {
+    margin-left: 2%;
+    width: 94%;
+  }
+  .checkbox {
+    padding-right: 5px;
+  }
+  #the-terms {
+    color: rgb(2, 87, 15, 0.9);
+    text-decoration: underline;
   }
 }
 
@@ -1082,17 +1192,21 @@ input[type="number"] {
 
   #form_bg {
     width: 100vw;
+    height: 200%;
     border-style: solid;
     border-width: 1px;
     border-color: whitesmoke;
     background-color: rgba(255, 255, 255, 0.4);
+    border-width: 1px;
+    border-color: whitesmoke;
   }
   .my-header {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     background-color: rgba(255, 255, 255, 0.4);
-    height: 7vh;
+    padding-top: 4px;
+    padding-bottom: 2px;
   }
   .create_merch_txt {
     display: none;
@@ -1103,6 +1217,10 @@ input[type="number"] {
   }
   .checkbox {
     padding-right: 5px;
+  }
+  #the-terms {
+    color: rgb(2, 87, 15, 0.9);
+    text-decoration: underline;
   }
 }
 </style>
