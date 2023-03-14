@@ -1,4 +1,5 @@
 <script setup>
+//import { storeToRefs } from "pinia";
 import PieChart from "./charts/PieChart";
 import LineChart from "./charts/LineChart.vue";
 import UserList from "../views/users/UserList.vue";
@@ -6,8 +7,17 @@ import UserList from "../views/users/UserList.vue";
 import ReferralsList from "./ReferralsList.vue";
 import MerchantsList from "./MerchantsList.vue";
 
+import Export from "./Export.vue";
 import Tooling from "./Tooling.vue";
 import Reporting from "./Reporting.vue";
+
+import { useAdminStore } from "@/stores";
+import { useAuthStore } from "@/stores";
+const authStore = useAuthStore();
+console.log("CHECK firstName LIST >> STORE: ", authStore.firstname);
+
+const adminStore = useAdminStore();
+console.log("CHECK CURRENT LIST >> STORE: ", adminStore.currentList);
 </script>
 
 <template>
@@ -55,7 +65,7 @@ import Reporting from "./Reporting.vue";
 
     <div class="flex_right_column">
       <div v-if="view == 'exportPdf'">
-        <img alt="Export as PDF" src="@/assets/images/pdf_exp.jpg" />
+        <Export />
       </div>
       <div v-if="view == 'userList'"><UserList /></div>
       <div v-else-if="view == 'chart'" class="charting">
@@ -72,8 +82,12 @@ import Reporting from "./Reporting.vue";
       <div v-else-if="view == 'eco'"><Reporting /></div>
       <div v-else-if="view == 'support'">
         <!-- <h2>Referrals Details</h2> -->
-        <ReferralsList />
-        <MerchantsList />
+        <div v-if="adminStore.currentList == 'referrals'">
+          <ReferralsList />
+        </div>
+        <div v-if="adminStore.currentList == 'merchants'">
+          <MerchantsList />
+        </div>
       </div>
 
       <div v-else-if="view == 'landing'">
@@ -133,7 +147,7 @@ export default {
       method: "",
       url: "",
       data: {},
-      view: "default",
+      view: "support",
       referral: "",
     };
   },
@@ -222,8 +236,8 @@ export default {
   }
   .flex_right_column {
     width: 90%;
-    margin: 2%;
-    padding: 2%;
+    margin: 0px;
+    padding: 0px;
   }
 }
 /* Laptops */
@@ -237,9 +251,9 @@ export default {
     width: 10%;
   }
   .flex_right_column {
-    width: 85%;
-    margin: 2%;
-    padding: 2%;
+    width: 90%;
+    margin: 0px;
+    padding: 0px;
   }
 }
 /* Tablet Devices */
@@ -253,9 +267,9 @@ export default {
     width: 10%;
   }
   .flex_right_column {
-    width: 85%;
-    margin: 2%;
-    padding: 2%;
+    width: 90%;
+    margin: 0px;
+    padding: 0px;
   }
 }
 
