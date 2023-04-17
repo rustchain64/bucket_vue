@@ -419,7 +419,7 @@ label {
 .bg3 {
   animation-duration: 4s;
 }
-/*  
+/*
 .content {
     background-color:rgba(255,255,255,.8);
     border-radius:.25em;

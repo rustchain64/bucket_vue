@@ -22,7 +22,9 @@ const schema = Yup.object().shape({
   //   .min(10, "Must be more than 10 characters")
   //   .required("Phone is requried"),
   email: Yup.string().email("Not a proper email"),
-  ss: Yup.string().trim().matches(ss, "SS number is not valid"),
+  ss: Yup.string()
+    .trim()
+    .matches(ss, "SS number is not valid no spaces please"),
   bankname: Yup.string().required("Bankname is required"),
   routingnumber: Yup.string().required("Routing Number is required"),
   accountnumber: Yup.string().required("Account Number is required"),
