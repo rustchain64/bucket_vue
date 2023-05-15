@@ -95,7 +95,7 @@ const schema = Yup.object().shape({
           v-slot="{ errors, isSubmitting }"
         >
           <div class="my-row">
-            <div class="form-group" id="input-width">
+            <!-- <div class="form-group" id="input-width">
               <label id="enhance-text">Your Name</label>
               <Field
                 name="yourname"
@@ -109,10 +109,10 @@ const schema = Yup.object().shape({
               <div class="invalid-feedback" id="v-red">
                 {{ errors.yourname }}
               </div>
-            </div>
+            </div> -->
 
             <div class="form-group" id="input-width">
-              <label id="enhance-text">Referral's Name</label>
+              <label id="enhance-text">Referral's Name?</label>
               <Field
                 name="referralname"
                 type="text"
@@ -129,7 +129,7 @@ const schema = Yup.object().shape({
             </div>
 
             <div class="form-group" id="input-width">
-              <label id="enhance-text">Business Name</label>
+              <label id="enhance-text">Business Name?</label>
               <Field
                 name="businessname"
                 type="text"
@@ -147,12 +147,12 @@ const schema = Yup.object().shape({
 
           <div class="my-row">
             <div class="form-group" id="input-width">
-              <label id="enhance-text">City</label>
+              <label id="enhance-text">Referral's City?</label>
               <Field
                 name="agentname"
                 type="text"
-                aria-placeholder="City"
-                placeholder="City"
+                aria-placeholder="Referral's City?"
+                placeholder="Referral's City?"
                 v-model="referForm.agentname"
                 class="form-control"
                 :class="{ 'is-invalid': errors.agentname }"
@@ -178,12 +178,12 @@ const schema = Yup.object().shape({
             </div>
 
             <div class="form-group" id="input-width">
-              <label id="enhance-text">Phone</label>
+              <label id="enhance-text">Referral's Phone Number?</label>
               <Field
                 name="phone"
                 type="text"
-                aria-placeholder="Phone"
-                placeholder="Phone"
+                aria-placeholder="Referral's Phone Number?"
+                placeholder="Referral's Phone Number?"
                 v-model="referForm.phone"
                 class="form-control"
                 :class="{ 'is-invalid': errors.phone }"
@@ -194,12 +194,12 @@ const schema = Yup.object().shape({
 
           <div class="my-row">
             <div class="form-group" id="input-width">
-              <label id="enhance-text">Email</label>
+              <label id="enhance-text">Referral's Business Email?</label>
               <Field
                 name="email"
                 type="text"
-                aria-placeholder="Email"
-                placeholder="Email"
+                aria-placeholder="Referral's Business Email?"
+                placeholder="Referral's Business Email?"
                 v-model="referForm.email"
                 class="form-control"
                 :class="{ 'is-invalid': errors.email }"
@@ -208,19 +208,21 @@ const schema = Yup.object().shape({
             </div>
 
             <div class="form-group" id="input-width">
-              <label id="enhance-text">SS</label>
+              <label id="enhance-text"
+                >Merchant's Social Security Number?</label
+              >
               <Field
                 name="ss"
                 type="text"
-                aria-placeholder="SS"
-                placeholder="SS"
+                aria-placeholder="Merchant's Social Security Number?"
+                placeholder="Merchant's Social Security Number?"
                 v-model="referForm.ss"
                 class="form-control"
                 :class="{ 'is-invalid': errors.ss }"
               />
               <div class="invalid-feedback" id="v-red">{{ errors.ss }}</div>
             </div>
-            <div class="form-group" id="input-width">
+            <!-- <div class="form-group" id="input-width">
               <label id="enhance-text">Bank Name</label>
               <Field
                 name="bankname"
@@ -234,10 +236,10 @@ const schema = Yup.object().shape({
               <div class="invalid-feedback" id="v-red">
                 {{ errors.bankname }}
               </div>
-            </div>
+            </div> -->
           </div>
 
-          <div class="my-row">
+          <div class="my-row" v-if="if_bank == true">
             <div class="form-group" id="input-width">
               <label id="enhance-text">Routing Number</label>
               <Field
@@ -285,7 +287,7 @@ const schema = Yup.object().shape({
 
           <div class="my-row">
             <div class="form-group" id="input-width">
-              <label id="enhance-text">Description</label>
+              <label id="enhance-text">Description of the deal?</label>
               <Field
                 name="description"
                 type="text"
@@ -451,6 +453,7 @@ export default {
         bankname: "",
         routingnumber: "",
         accountnumber: "",
+        if_bank: false,
         title: "",
         description: "",
         published: "",

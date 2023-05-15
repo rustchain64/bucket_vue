@@ -87,12 +87,12 @@ const schema = Yup.object().shape({
           >
             <div class="my-row">
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Your Name</label>
+                <label id="enhance-text">Who are you?</label>
                 <Field
                   name="yourname"
                   type="text"
-                  aria-placeholder="Your Name"
-                  placeholder="Your Name"
+                  aria-placeholder="Who are you?"
+                  placeholder="Who are you?"
                   v-model="user.yourname"
                   class="form-control"
                   :class="{ 'is-invalid': errors.yourname }"
@@ -103,12 +103,12 @@ const schema = Yup.object().shape({
               </div>
 
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Referral's Name</label>
+                <label id="enhance-text">Referral's Name?</label>
                 <Field
                   name="referralname"
                   type="text"
-                  aria-placeholder="Referral's Name"
-                  placeholder="Referral's Name"
+                  aria-placeholder="Referral's Name?"
+                  placeholder="Referral's Name?"
                   v-model="user.referralname"
                   value="referralname"
                   class="form-control"
@@ -120,9 +120,9 @@ const schema = Yup.object().shape({
               </div>
             </div>
 
-            <div class="my-row">
+            <div class="my-row" v-if="is_agent == true">
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Agent's Name</label>
+                <label id="enhance-text">Agent's Name?</label>
                 <Field
                   name="agentname"
                   type="text"
@@ -135,7 +135,7 @@ const schema = Yup.object().shape({
                 </div>
               </div>
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Agent's Code</label>
+                <label id="enhance-text">Agent's Code?</label>
                 <Field
                   name="agentcode"
                   type="text"
@@ -151,12 +151,12 @@ const schema = Yup.object().shape({
 
             <div class="my-row">
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Business Name</label>
+                <label id="enhance-text">Referral's Business Name?</label>
                 <Field
                   name="businessname"
                   type="text"
-                  aria-placeholder="Business Name"
-                  placeholder="Business Name"
+                  aria-placeholder="Referral's Business Name?"
+                  placeholder="Referral's Business Name?"
                   v-model="user.businessname"
                   class="form-control"
                   :class="{ 'is-invalid': errors.businessname }"
@@ -166,12 +166,12 @@ const schema = Yup.object().shape({
                 </div>
               </div>
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Phone</label>
+                <label id="enhance-text">Referral's Phone Number?</label>
                 <Field
                   name="phone"
                   type="text"
-                  aria-placeholder="Phone"
-                  placeholder="Phone"
+                  aria-placeholder="Referral's Phone Number?"
+                  placeholder="Referral's Phone Number?"
                   v-model="user.phone"
                   class="form-control"
                   :class="{ 'is-invalid': errors.phone }"
@@ -182,14 +182,14 @@ const schema = Yup.object().shape({
               </div>
             </div>
 
-            <div class="my-row">
+            <div class="my-row" v-if="if_notes == true">
               <div class="form-group" id="input-width">
                 <label id="enhance-text">Notes</label>
                 <Field
                   name="title"
                   type="text"
                   aria-placeholder="Notes"
-                  placeholder="Notes"
+                  placeholder="Deal Notes"
                   v-model="user.title"
                   class="form-control"
                   :class="{ 'is-invalid': errors.title }"
@@ -199,12 +199,12 @@ const schema = Yup.object().shape({
                 </div>
               </div>
               <div class="form-group" id="input-width">
-                <label id="enhance-text">Description</label>
+                <label id="enhance-text">Deal Description</label>
                 <Field
                   name="description"
                   type="text"
-                  aria-placeholder="Description"
-                  placeholder="Description"
+                  aria-placeholder="DealDescription"
+                  placeholder="Deal Description"
                   v-model="user.description"
                   class="form-control"
                   :class="{ 'is-invalid': errors.description }"
@@ -292,10 +292,12 @@ export default {
       referralname: "",
       agentname: "James Bond",
       agentcode: "AGU0W5",
+      is_agent: false,
       businessname: "",
       phone: "",
       title: "",
       description: "",
+      if_notes: false,
     },
     referred: false,
     userfirstname: null,

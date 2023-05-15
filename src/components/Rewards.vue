@@ -1,12 +1,16 @@
 <template>
   <div class="main-wrapper">
     <div class="container">
-      <div class="rewards-header">Rewards Calculator</div>
+      <div class="reward-row">
+        <div class="rewards-header">Rewards Calculator</div>
+        <button class="how-to-btn" @click="show_how_to_video()">How To</button>
+      </div>
+
       <div class="slider-lable-hr"></div>
       <div class="slider-label-text">Referrals' Monthly Volume</div>
       <div class="slider-text-row">
         <div class="slider-text">$1000</div>
-        <div class="slider-text">$50,000</div>
+        <div class="slider-text">$100,000</div>
       </div>
       <div class="slidecontainer">
         <input
@@ -90,6 +94,26 @@
         name="portfolio"
       />
     </div>
+
+    <div class="player" id="playerHowTo" v-show="howTwoVideo == true">
+      <iframe
+        loading="lazy"
+        width="802"
+        height="451"
+        src="https://www.youtube.com/embed/n4yFSNCqt7g"
+        title="HOW TO CALCULATE - GetPie.io"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        class="video"
+        id="playerHowTo"
+        align="middle"
+      >
+      </iframe>
+      <div class="video-control-bar">
+        <button @click="closeHowToVideo" class="video-one-close">X</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,19 +121,32 @@
 export default {
   name: "my-add-user",
   data: () => ({
-    volumeValue: "$50,000",
+    volumeValue: "$100,000",
     merchantValue: "50",
     processVolume: "$2,500,000",
-    volume: 50000,
+    volume: 100000,
     merchants: 50,
     monthlyIncome: "$5,625",
     portfolioVolume: "$2,500,000",
-    yourMake: "$67,500",
+    yourMake: "$135,000",
+    howTwoVideo: false,
   }),
   methods: {
+    show_how_to_video() {
+      this.howTwoVideo = true;
+    },
+    hide_how_to_video() {
+      this.howTwoVideo = false;
+    },
+    closeHowToVideo() {
+      this.hideVideoOne();
+      var frame = document.getElementById("playerHowTo");
+      frame.parentNode.removeChild(frame);
+    },
+
     volumeSlide(event) {
       // console.log("call slider ", event.target.value);
-      this.volume = event.target.value * 500;
+      this.volume = event.target.value * 1000;
     },
     merchantSlide(event) {
       // console.log("call slider ", event.target.value);
@@ -143,6 +180,10 @@ export default {
 </script>
 
 <style scoped>
+.reward-row {
+  display: flex;
+  justify-content: space-between;
+}
 .rewards-header {
   color: rgb(2, 19, 95);
   font-size: 1.3em;
@@ -152,6 +193,31 @@ export default {
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 0px;
+}
+
+.how-to-btn {
+  color: white;
+  background-color: orange;
+  height: 20px;
+  border-radius: 10pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player {
+  position: fixed;
+  z-index: 25;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(10, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 56.25%;
 }
 
 .slider-lable-hr {
